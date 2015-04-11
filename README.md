@@ -22,7 +22,7 @@ and call the extension method
 	
 #Property Mapping
 
-Use the PropertyMappingAttribute to override property name mapping to alias mapping. The MapTo function will still fall back to property name mapping if aliases fail to find a match.
+Use the PropertyMappingAttribute to override property name mapping to alias mapping. The MapTo function will still fall back to property name mapping if aliases fail to find a match. The MapTo function will look for a column named "Id" to set the following property named "MyClassId"
 
 	public class MyClass
 	{
