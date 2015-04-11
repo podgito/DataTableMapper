@@ -1,6 +1,10 @@
 # DataTableMapper
 Map a DataTable to a class instance via MapTo&lt;T>() extension method. The tables columns will automatically map to the class' properties by name. The property names can be overriden with aliases via Attributes.
 
+#Nuget
+
+	Install-Package DataTableMapper
+
 # Usage
 
 The extension method interface is as follows
