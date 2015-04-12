@@ -45,8 +45,8 @@
     <Compile Include="Attributes\PropertyMappingAttribute.cs" />
     <Compile Include="Attributes\ValueConversionAttribute.cs" />
     <Compile Include="Attributes\ValueConversionAttributes\BoolValueConversionAttribute.cs" />
-    <Compile Include="DataTable\DataTableRM.cs" />
-    <Compile Include="DataTable\IORMPreProcessor.cs" />
+    <Compile Include="DataTable\DataTableExtensions.cs" />
+    <Compile Include="DataTable\IPreProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

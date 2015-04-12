@@ -51,6 +51,7 @@ namespace DataTableMapper.Tests.DataTableRM
         }
 
         [Test]
+        
         public void MapSingleColumnTableNullToIntegers()
         {
             var table = CreateTable();

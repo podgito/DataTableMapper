@@ -9,14 +9,17 @@ using DataTableMapper.Attributes;
 
 namespace DataTableMapper.DataTable
 {
-    public static class DataTableRM
+    /// <summary>
+    /// Contains extension methods for System.Data.DataTable
+    /// </summary>
+    public static class DataTableExtensions
     {
 
 
         //Property mapping attribute
         //Property name
 
-        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, IORMPreProcessor preProcessor) where T : new()
+        private static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, IPreProcessor preProcessor) where T : new()
         {
             //Do the reflection magic!
             //Go through all the properties of T and find columns for it
@@ -100,7 +103,7 @@ namespace DataTableMapper.DataTable
 
                 else //Else for complex types, map to recursively - kind of! Need to use reflection to invoke a generic method. See: http://stackoverflow.com/questions/2107845/generics-in-c-using-type-of-a-variable-as-parameter
                 {
-                    MethodInfo method = typeof(DataTableRM).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { propertyType });
+                    MethodInfo method = typeof(DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { propertyType });
 
                     var complexPropertyInstance = method.Invoke(null, new object[] { row });
 
@@ -123,12 +126,24 @@ namespace DataTableMapper.DataTable
             return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime);
         }
 
+        /// <summary>
+        /// Maps DataTable to type T's properties for each row in table
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns>Enumerable of T</returns>
         public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
         {
             return MapTo<T>(table, new NullPreProcessor());
         }
 
-        //Primitives
+        /// <summary>
+        /// Maps a column to an IEnumerable of T, where T is a primitive or string (simple types)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="columnName">The table column name to read</param>
+        /// <returns>Enumerable of T</returns>
         public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, string columnName) where T : IComparable
         {
             foreach (DataRow row in table.Rows)

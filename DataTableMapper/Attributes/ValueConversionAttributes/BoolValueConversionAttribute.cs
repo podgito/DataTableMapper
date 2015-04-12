@@ -11,6 +11,10 @@ namespace DataTableMapper.Attributes.ValueConversionAttributes
     /// </summary>
     public class BoolValueConversionAttribute : PropertyMappingAttribute
     {
+        /// <summary>
+        /// Map column to bool with Bool.TryParse and C-like value conversion attempts.
+        /// </summary>
+        /// <param name="aliases"></param>
         public BoolValueConversionAttribute(params string[] aliases) : base(aliases) { }
         public override object Convert(object o)
         {
