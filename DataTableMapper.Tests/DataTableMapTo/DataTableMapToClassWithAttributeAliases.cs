@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataTableMapper.Attributes;
-using DataTableMapper.DataTable;
+using DataTableMapper;
 
-namespace DataTableMapper.Tests.DataTableRM
+namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTableMapToClassWithAttributeAliases
@@ -25,7 +25,7 @@ namespace DataTableMapper.Tests.DataTableRM
             table.Columns.Add("DateOfBirth");
 
 
-            table.Rows.Add(1, "Padraic Duffy", "1987-09-11");
+            table.Rows.Add(1, "Padraic Duffy", "1900-03-04");
 
             //Act
             var xList = table.MapTo<AttributeClass>();
@@ -37,7 +37,7 @@ namespace DataTableMapper.Tests.DataTableRM
 
             Assert.AreEqual(1, c1.Id);
             Assert.AreEqual("Padraic Duffy", c1.Name);
-            Assert.AreEqual(new DateTime(1987, 09, 11), c1.DOB);
+            Assert.AreEqual(new DateTime(1900, 03, 04), c1.DOB);
 
         }
 
@@ -53,7 +53,7 @@ namespace DataTableMapper.Tests.DataTableRM
             table.Columns.Add("DateOfBirth");
 
 
-            table.Rows.Add(1, "Padraic Duffy", "1987-09-11");
+            table.Rows.Add(1, "Padraic Duffy", "1900-03-04");
 
             //Act
             var xList = table.MapTo<AttributeClass>();
@@ -65,7 +65,7 @@ namespace DataTableMapper.Tests.DataTableRM
 
             Assert.AreEqual(1, c1.Id);
             Assert.AreEqual("Padraic Duffy", c1.Name);
-            Assert.AreEqual(new DateTime(1987, 09, 11), c1.DOB);
+            Assert.AreEqual(new DateTime(1900, 03, 04), c1.DOB);
 
         }
 
@@ -81,7 +81,7 @@ namespace DataTableMapper.Tests.DataTableRM
             table.Columns.Add("DateOfBirth");
 
 
-            table.Rows.Add(1, "Padraic Duffy", "1987-09-11");
+            table.Rows.Add(1, "Padraic Duffy", "1900-03-04");
 
             //Act
             var xList = table.MapTo<AttributeClass>();
@@ -93,7 +93,7 @@ namespace DataTableMapper.Tests.DataTableRM
 
             Assert.AreEqual(1, c1.Id);
             Assert.AreEqual("Padraic Duffy", c1.Name);
-            Assert.AreEqual(new DateTime(1987, 09, 11), c1.DOB);
+            Assert.AreEqual(new DateTime(1900, 03, 04), c1.DOB);
 
         }
         

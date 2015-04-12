@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 using DataTableMapper.Attributes;
 
-namespace DataTableMapper.DataTable
+namespace DataTableMapper
 {
     /// <summary>
     /// Contains extension methods for System.Data.DataTable

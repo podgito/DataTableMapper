@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataTableMapper.Attributes;
-using DataTableMapper.DataTable;
+using DataTableMapper;
 
-namespace DataTableMapper.Tests.DataTableRM
+namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTableMapToClassWithComplexProperties
@@ -27,7 +27,7 @@ namespace DataTableMapper.Tests.DataTableRM
             table.Columns.Add("Surname");
             table.Columns.Add("DateOfBirth");
 
-            table.Rows.Add(eventId, userId, "Padraic", "Duffy", "1987-09-11");
+            table.Rows.Add(eventId, userId, "Padraic", "Duffy", "1910-08-01");
 
             //Act
             var xList = table.MapTo<TestEvent>();
@@ -41,7 +41,7 @@ namespace DataTableMapper.Tests.DataTableRM
             Assert.AreEqual(userId, e.User.UserId);
             Assert.AreEqual("Padraic", e.User.Name.FirstName);
             Assert.AreEqual("Duffy", e.User.Name.LastName);
-            Assert.AreEqual(new DateTime(1987, 09, 11), e.User.DOB);
+            Assert.AreEqual(new DateTime(1910, 08, 01), e.User.DOB);
         }
 
     }

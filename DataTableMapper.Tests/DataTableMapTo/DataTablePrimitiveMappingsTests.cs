@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataTableMapper.DataTable;
+using DataTableMapper;
 
-namespace DataTableMapper.Tests.DataTableRM
+namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTablePrimitiveMappingsTests

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataTableMapper.DataTable
+namespace DataTableMapper
 {
     /// <summary>
     /// Expose processing of object before setting property

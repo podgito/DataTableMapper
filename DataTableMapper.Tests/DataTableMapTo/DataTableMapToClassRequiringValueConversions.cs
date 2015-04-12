@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataTableMapper.Attributes.ValueConversionAttributes;
-using DataTableMapper.DataTable;
+using DataTableMapper.Attributes;
 
-namespace DataTableMapper.Tests.DataTableRM
+namespace DataTableMapper.Tests.DataTableMapTo
 {
 
     [TestFixture]

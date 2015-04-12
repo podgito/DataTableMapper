@@ -42,13 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTableRM\DataTableMapToClassRequiringValueConversions.cs" />
-    <Compile Include="DataTableRM\DataTableMapToClassWithAttributeAliases.cs" />
-    <Compile Include="DataTableRM\DataTableMapToClassWithComplexProperties.cs" />
-    <Compile Include="DataTableRM\DataTableMapToClassWithExtraPropertiesTests.cs" />
-    <Compile Include="DataTableRM\DataTableMapToNullablesTests.cs" />
-    <Compile Include="DataTableRM\DataTableMapToTests.cs" />
-    <Compile Include="DataTableRM\DataTablePrimitiveMappingsTests.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassRequiringValueConversions.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithAttributeAliases.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithComplexProperties.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithExtraPropertiesTests.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToNullablesTests.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToTests.cs" />
+    <Compile Include="DataTableMapTo\DataTablePrimitiveMappingsTests.cs" />
     <Compile Include="MyTestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataTableMapper.Attributes.ValueConversionAttributes
+namespace DataTableMapper.Attributes
 {
     /// <summary>
     /// Tries to convert the object to an bool as per the C-like rules. e.g. zero is false, non-zero is true
