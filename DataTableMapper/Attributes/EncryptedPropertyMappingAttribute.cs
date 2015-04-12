@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace DataTableMapper.Attributes
 {
-    public class EncryptedPropertyMappingAttribute : PropertyMappingAttribute
+    internal class EncryptedPropertyMappingAttribute : PropertyMappingAttribute
     {
 
         public EncryptedPropertyMappingAttribute() : base(new string[0]) { }
