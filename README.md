@@ -11,9 +11,6 @@ The extension method interface is as follows
 
 	public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
 
-Add using to your class file
-
-	using DataTableMapper.DataTable;
 
 and call the extension method
 
