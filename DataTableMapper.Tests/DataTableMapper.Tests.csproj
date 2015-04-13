@@ -50,6 +50,7 @@
     <Compile Include="DataTableMapTo\DataTableMapToTests.cs" />
     <Compile Include="DataTableMapTo\DataTablePrimitiveMappingsTests.cs" />
     <Compile Include="MyTestClass.cs" />
+    <Compile Include="Performance\MapToPerformanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
