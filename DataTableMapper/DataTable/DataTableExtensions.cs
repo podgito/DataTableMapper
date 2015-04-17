@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using DataTableMapper.Attributes;
+using System.Linq;
+using DataTableMapper.Attributes.Core;
 
 namespace DataTableMapper
 {
@@ -29,6 +31,18 @@ namespace DataTableMapper
             }
         }
 
+        //1) ColumnMappingAttributes to get a value for this property from a column (Column Mapping) return null or default value if none found
+        //2) Loop th
+
+        private static T Map2<T>(DataRow row) where T: new()
+        {
+            var x = new T();
+
+
+
+            return x;
+        }
+
         private static T Map<T>(DataRow row) where T : new()
         {
             var x = new T();
@@ -43,13 +57,14 @@ namespace DataTableMapper
                 if (PrimitiveCheck(propertyType))
                 {
                     //1) Property attributes
-                    var propertyAttributes = property.GetCustomAttributes(true);
-                     
+                    var propertyAttributes = property.GetCustomAttributes(typeof(DataMapperAttribute), true).OrderBy(p => ((DataMapperAttribute)p).Priority);
+
+
                     foreach (var attribute in propertyAttributes)
                     {
                         //if (attribute.GetType() == typeof(PropertyMappingAttribute))
                         //if(attribute.GetType().IsAssignableFrom(typeof(PropertyMappingAttribute)))
-                        if(attribute is IValueConversion)
+                        if (attribute is IValueConversion)
                         {
                             var propertyMappingAttribute = (PropertyMappingAttribute)attribute;
 
@@ -60,31 +75,31 @@ namespace DataTableMapper
                                 {
                                     value = propertyMappingAttribute.Convert(row[alias]);
 
-                                    
+
                                     break;
                                 }
                                 catch (ArgumentException) { }
                             }
 
-                            if(value == null) //If still null, revert to property name but still convert!
+                            if (value == null) //If still null, revert to property name but still convert!
                             {
                                 value = propertyMappingAttribute.Convert(GetValueByPropertyName(row, property));
                             }
 
-                            if(value!=null)
+                            if (value != null)
                             {
                                 property.SetValue(x, Convert.ChangeType(value, property.PropertyType), null);
                                 continue;
                             }
-                            
+
                         }
 
-                       
+
                     }
 
                     //2) Property name if the value is still null
 
-                    if(value == null)
+                    if (value == null)
                     {
                         try
                         {
@@ -94,7 +109,7 @@ namespace DataTableMapper
                         }
                         catch (ArgumentException) { }
                     }
-                    
+
 
                 }
 

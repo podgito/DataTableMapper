@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataTableMapper.Tests</RootNamespace>
-    <AssemblyName>T5ORM.Tests</AssemblyName>
+    <AssemblyName>DataTableMapper.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -43,12 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTableMapTo\DataTableMapToClassRequiringValueConversions.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassUsingColumnMappingAttribute.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithAttributeAliases.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithComplexProperties.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributes.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithExtraPropertiesTests.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithZeroRows.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToDBNullTests.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToNullablesTests.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToTests.cs" />
     <Compile Include="DataTableMapTo\DataTablePrimitiveMappingsTests.cs" />
+    <Compile Include="Extensions\DataRowExtensionsTests.cs" />
+    <Compile Include="Mapping\TypeCheckerTests.cs" />
     <Compile Include="MyTestClass.cs" />
     <Compile Include="Performance\MapToPerformanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

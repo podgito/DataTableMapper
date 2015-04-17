@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataTableMapper.Attributes.Core;
+using System;
 
 namespace DataTableMapper.Attributes
 {
@@ -6,7 +7,7 @@ namespace DataTableMapper.Attributes
     /// Allows DataTableMapper to map a property to a column name
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyMappingAttribute : System.Attribute, IValueConversion
+    public class PropertyMappingAttribute : ColumnMappingAttributeBase, IValueConversion
     {
         public string[] Aliases { get; protected set; }
 
