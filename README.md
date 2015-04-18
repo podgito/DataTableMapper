@@ -23,6 +23,12 @@ By default the MapTo function will attempt to map a property to the table's colu
 
 Decorate properties with the ColumnMappingAttribute to map a property to a column with another name. The MapTo function will still fall back to property-name mapping if no match is found. e.g. The MapTo function will look for a column named "Id" to set the following property named "MyClassId"
 
+#Default Values
+
+Decorate a property with the DefaultValueAttribute to assign a value to the property in the case where no mapping can be done OR the mapping yields a DBNull.
+
+
+
 	public class MyClass
 	{
 		[ColumnMapping("Id")]
