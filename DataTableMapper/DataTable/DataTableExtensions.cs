@@ -5,6 +5,7 @@ using System.Reflection;
 using DataTableMapper.Attributes;
 using System.Linq;
 using DataTableMapper.Attributes.Core;
+using DataTableMapper.Mapping;
 
 namespace DataTableMapper
 {
@@ -13,6 +14,11 @@ namespace DataTableMapper
     /// </summary>
     public static class DataTableExtensions
     {
+        //Applying open-closed principle - order is important!!
+        static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping(), new DefaultValueAttributeMapping() };
+
+        static IEnumerable<IValueConversion> _converters = new List<IValueConversion>();
+
 
 
         //Property mapping attribute
@@ -34,98 +40,64 @@ namespace DataTableMapper
         //1) ColumnMappingAttributes to get a value for this property from a column (Column Mapping) return null or default value if none found
         //2) Loop th
 
-        private static T Map2<T>(DataRow row) where T: new()
-        {
-            var x = new T();
-
-
-
-            return x;
-        }
-
         private static T Map<T>(DataRow row) where T : new()
         {
             var x = new T();
 
-            var properties = x.GetType().GetProperties();
+
+
+            var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
 
             foreach (var property in properties)
             {
-                object value = null;
-                var propertyType = property.PropertyType;
+                object mappedValue = null;
 
-                if (PrimitiveCheck(propertyType))
+                if (TypeHelper.IsSimpleType(property.PropertyType))
                 {
-                    //1) Property attributes
-                    var propertyAttributes = property.GetCustomAttributes(typeof(DataMapperAttribute), true).OrderBy(p => ((DataMapperAttribute)p).Priority);
 
-
-                    foreach (var attribute in propertyAttributes)
+                    // 1) Mapping
+                    foreach (var mapping in _mappings)
                     {
-                        //if (attribute.GetType() == typeof(PropertyMappingAttribute))
-                        //if(attribute.GetType().IsAssignableFrom(typeof(PropertyMappingAttribute)))
-                        if (attribute is IValueConversion)
-                        {
-                            var propertyMappingAttribute = (PropertyMappingAttribute)attribute;
-
-
-                            foreach (var alias in propertyMappingAttribute.Aliases)
-                            {
-                                try
-                                {
-                                    value = propertyMappingAttribute.Convert(row[alias]);
-
-
-                                    break;
-                                }
-                                catch (ArgumentException) { }
-                            }
-
-                            if (value == null) //If still null, revert to property name but still convert!
-                            {
-                                value = propertyMappingAttribute.Convert(GetValueByPropertyName(row, property));
-                            }
-
-                            if (value != null)
-                            {
-                                property.SetValue(x, Convert.ChangeType(value, property.PropertyType), null);
-                                continue;
-                            }
-
-                        }
-
-
+                        mappedValue = mapping.Map(property, row);
+                        if (mappedValue != null) break; //Break if we have gotten a value
                     }
 
-                    //2) Property name if the value is still null
+                    //2) conversion
 
-                    if (value == null)
+                    object convertedMappedValue = AttributeConversion(property, mappedValue);
+
+
+                    if (convertedMappedValue == null)
                     {
-                        try
-                        {
-                            value = row[property.Name];
-
-                            property.SetValue(x, Convert.ChangeType(value, property.PropertyType), null);
-                        }
-                        catch (ArgumentException) { }
+                        convertedMappedValue = TypeHelper.GetDefault(property.PropertyType);
                     }
 
-
+                    property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
                 }
-
-                else //Else for complex types, map to recursively - kind of! Need to use reflection to invoke a generic method. See: http://stackoverflow.com/questions/2107845/generics-in-c-using-type-of-a-variable-as-parameter
+                else //complex type
                 {
-                    MethodInfo method = typeof(DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { propertyType });
+                    MethodInfo method = typeof(DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { property.PropertyType });
 
                     var complexPropertyInstance = method.Invoke(null, new object[] { row });
 
                     property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
                 }
 
-                //Property custom assignment
+
             }
 
             return x;
+        }
+
+        private static object AttributeConversion(PropertyInfo property, object value)
+        {
+            if (property.GetCustomAttributes(typeof(IValueConversion), true).Any())
+            {
+                var converter = (IValueConversion)property.GetCustomAttributes(typeof(IValueConversion), true).First();
+                return converter.Convert(value);
+            }
+            else return value;
+           
         }
 
         private static object GetValueByPropertyName(DataRow row, PropertyInfo property)

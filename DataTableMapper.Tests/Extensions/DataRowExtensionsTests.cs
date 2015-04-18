@@ -33,5 +33,26 @@ namespace DataTableMapper.Tests.Extensions
 
         }
 
+        [Test]
+        [Ignore("Do we want this?")]
+        public void ReturnsNullWhenColumnDoesntExist()  
+        {
+            //Arrange
+
+            var columnName = "Col1";
+            var table = new DataTable();
+            table.Columns.Add(columnName);
+
+            table.Rows.Add(DBNull.Value);
+
+            var row = table.AsEnumerable().First();
+
+            //Act
+            var value = row.TryReadColumn("sadfasdf");
+
+            //Assert
+            Assert.IsNull(value);
+        }
+
     }
 }

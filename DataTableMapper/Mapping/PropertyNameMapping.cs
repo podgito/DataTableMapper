@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using DataTableMapper.Extensions;
 
 namespace DataTableMapper.Mapping
 {
@@ -13,11 +14,11 @@ namespace DataTableMapper.Mapping
         public object Map(System.Reflection.PropertyInfo property, System.Data.DataRow row)
         {
 
-            if (TypeChecker.IsSimpleType(property.PropertyType))
+            if (TypeHelper.IsSimpleType(property.PropertyType))
             {
                 try
                 {
-                    return row[property.Name];
+                    return row.TryReadColumn(property.Name);
                 }
                 catch (ArgumentException) { return null; }
             }

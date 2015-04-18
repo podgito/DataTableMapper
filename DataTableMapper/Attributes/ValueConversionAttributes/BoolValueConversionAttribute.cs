@@ -4,21 +4,27 @@ namespace DataTableMapper.Attributes
     /// <summary>
     /// Tries to convert the object to an bool as per the C-like rules. e.g. zero is false, non-zero is true
     /// </summary>
-    public class BoolValueConversionAttribute : PropertyMappingAttribute
+    public class BoolValueConversionAttribute : ColumnMappingAttribute, IValueConversion
     {
         /// <summary>
         /// Map column to bool with Bool.TryParse and C-like value conversion attempts.
         /// </summary>
         /// <param name="aliases"></param>
         public BoolValueConversionAttribute(params string[] aliases) : base(aliases) { }
-        public override object Convert(object o)
+
+
+        public object Convert(object o)
         {
+            if (o != null)
+            {
+                var intValue = IntegerValue(o);
 
-            var intValue = IntegerValue(o);
+                var toBoolValue = ToBool(o);
 
-            var toBoolValue = ToBool(o);
+                return toBoolValue || intValue > 0;
+            }
+            else return null;
 
-            return toBoolValue || intValue > 0;
         }
 
         static bool ToBool(object o)
@@ -29,10 +35,11 @@ namespace DataTableMapper.Attributes
             return b;
         }
 
-         static int IntegerValue( object o)
+        static int IntegerValue(object o)
         {
             var x = 0;
-            int.TryParse(o.ToString(), out x);
+            if (o != null)
+                int.TryParse(o.ToString(), out x);
             return x;
         }
     }

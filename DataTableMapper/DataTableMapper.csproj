@@ -54,9 +54,11 @@
     <Compile Include="DataTable\IPreProcessor.cs" />
     <Compile Include="DataTable\Mapping.cs" />
     <Compile Include="Extensions\DataRowExtensions.cs" />
+    <Compile Include="Mapping\ColumnNameAttributeMapping.cs" />
+    <Compile Include="Mapping\DefaultValueAttributeMapping.cs" />
     <Compile Include="Mapping\IMapping.cs" />
     <Compile Include="Mapping\PropertyNameMapping.cs" />
-    <Compile Include="Mapping\TypeChecker.cs" />
+    <Compile Include="Mapping\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -10,7 +10,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
     {
 
         [Test]
-        public void MapToAttributeClass()
+        public void MapWithColumnAttributeMapping()
         {
             //Arrange
 
@@ -38,7 +38,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
         }
 
         [Test]
-        public void MapToAttributeClass2()
+        public void MapWithColumnAttributeMapping2()
         {
             //Arrange
 
@@ -66,7 +66,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
         }
 
         [Test]
-        public void MapToAttributeClass3()
+        public void MapWithColumnAttributeMapping3()
         {
             //Arrange
 

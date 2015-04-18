@@ -20,7 +20,7 @@ namespace DataTableMapper.Tests.Mapping
         public void IsSimpleTypeTests(object obj, bool expectedIsSimpleType)
         {
             //Act
-            var isSimpleType = TypeChecker.IsSimpleType(obj.GetType());
+            var isSimpleType = TypeHelper.IsSimpleType(obj.GetType());
 
 
             //Assert

@@ -32,16 +32,29 @@ namespace DataTableMapper.Tests.DataTableMapTo
         }
 
         [Test]
-        public void PropertiesSetToDefaultValuesForMissingColumns()
+        public void PropertiesSetToDefaultValuesWhenThereAreNoMatchingColumns()
         {
+            var table = new DataTable();
 
+            table.Columns.Add("asgdsfsa");
+            table.Columns.Add("sadfasdf");
+            table.Columns.Add("asdfasdhhfgwe");
+
+            table.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value);
+
+            //Act
+            var person = table.MapTo<Person>().First();
+
+            Assert.AreEqual(99, person.Id);
+            Assert.AreEqual("Johnny", person.Name);
+            Assert.AreEqual(true, person.IsGreat);
         }
 
-        [Test]
-        public void PropertiesSetToDefaultValuesUsingColumnMappings()
-        {
+        //[Test]
+        //public void PropertiesSetToDefaultValuesUsingColumnMappings()
+        //{
 
-        }
+        //}
 
 
         class Person

@@ -7,18 +7,15 @@ namespace DataTableMapper.Attributes
     /// Allows DataTableMapper to map a property to a column name
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyMappingAttribute : ColumnMappingAttributeBase, IValueConversion
+    public class PropertyMappingAttribute : ColumnMappingAttribute
     {
-        public string[] Aliases { get; protected set; }
+        //public string[] Aliases { get; protected set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="aliases">An array of column names</param>
-        public PropertyMappingAttribute(params string[] aliases)
-        {
-            Aliases = aliases;
-        }
+        public PropertyMappingAttribute(params string[] aliases) : base(aliases) { }
 
         /// <summary>
         /// The default convert just returns the input

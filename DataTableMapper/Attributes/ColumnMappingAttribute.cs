@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataTableMapper.Attributes.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,18 @@ namespace DataTableMapper.Attributes
     /// <summary>
     /// Map a DataTable column to a property
     /// </summary>
-    public class ColumnMappingAttribute : PropertyMappingAttribute
+    public class ColumnMappingAttribute : ColumnMappingAttributeBase
     {
+
+        public string[] Aliases { get; protected set; }
+
         /// <summary>
         /// Indicates the column name(s) to map to this property
         /// </summary>
-        /// <param name="mappings"></param>
-        public ColumnMappingAttribute(params string[] mappings) : base(mappings) { }
+        /// <param name="alisas"></param>
+        public ColumnMappingAttribute(params string[] aliases)
+        {
+            Aliases = aliases;
+        }
     }
 }
