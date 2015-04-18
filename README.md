@@ -17,14 +17,19 @@ and call the extension method
 	IEnumberable<MyClass> x = table.MapTo<MyClass>();
 	
 	
-#Property Mapping
+#Column Mapping
 
-Use the PropertyMappingAttribute to override property name mapping to alias mapping. The MapTo function will still fall back to property name mapping if aliases fail to find a match. The MapTo function will look for a column named "Id" to set the following property named "MyClassId"
+By default the MapTo function will attempt to map a property to the table's column with the same name.
+
+Decorate properties with the ColumnMappingAttribute to map a property to a column with another name. The MapTo function will still fall back to property-name mapping if no match is found. e.g. The MapTo function will look for a column named "Id" to set the following property named "MyClassId"
 
 	public class MyClass
 	{
-		[PropertyMapping("Id")]
+		[ColumnMapping("Id")]
 		public int MyClassId { get; set; }
 	}	
 		
-	
+#Default Values
+
+Decorate a property with the DefaultValueAttribute to assign a value to the property in the case where no mapping can be done OR the mapping yields a DBNull.	
+
