@@ -17,14 +17,13 @@ namespace DataTableMapper
         //Applying open-closed principle - order is important!!
         static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping(), new DefaultValueAttributeMapping() };
 
-        static IEnumerable<IValueConversion> _converters = new List<IValueConversion>();
-
-
-
-        //Property mapping attribute
-        //Property name
-
-        private static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, IPreProcessor preProcessor) where T : new()
+        /// <summary>
+        /// Maps DataTable to type T's properties for each row in table
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns>Enumerable of T</returns>
+        public static IEnumerable<T> MapTo<T>(this DataTable table) where T : new()
         {
             //Do the reflection magic!
             //Go through all the properties of T and find columns for it
@@ -37,14 +36,9 @@ namespace DataTableMapper
             }
         }
 
-        //1) ColumnMappingAttributes to get a value for this property from a column (Column Mapping) return null or default value if none found
-        //2) Loop th
-
         private static T Map<T>(DataRow row) where T : new()
         {
             var x = new T();
-
-
 
             var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
 
@@ -63,7 +57,6 @@ namespace DataTableMapper
                     }
 
                     //2) conversion
-
                     object convertedMappedValue = AttributeConversion(property, mappedValue);
 
 
@@ -89,6 +82,8 @@ namespace DataTableMapper
             return x;
         }
 
+
+
         private static object AttributeConversion(PropertyInfo property, object value)
         {
             if (property.GetCustomAttributes(typeof(IValueConversion), true).Any())
@@ -100,26 +95,6 @@ namespace DataTableMapper
            
         }
 
-        private static object GetValueByPropertyName(DataRow row, PropertyInfo property)
-        {
-            return row[property.Name];
-        }
-
-        private static bool PrimitiveCheck(Type type)
-        {
-            return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime);
-        }
-
-        /// <summary>
-        /// Maps DataTable to type T's properties for each row in table
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="table"></param>
-        /// <returns>Enumerable of T</returns>
-        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
-        {
-            return MapTo<T>(table, new NullPreProcessor());
-        }
 
         /// <summary>
         /// Maps a column to an IEnumerable of T, where T is a primitive or string (simple types)

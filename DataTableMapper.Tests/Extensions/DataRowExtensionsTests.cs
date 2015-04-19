@@ -34,7 +34,6 @@ namespace DataTableMapper.Tests.Extensions
         }
 
         [Test]
-        [Ignore("Do we want this?")]
         public void ReturnsNullWhenColumnDoesntExist()  
         {
             //Arrange

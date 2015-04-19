@@ -13,13 +13,15 @@ namespace DataTableMapper.Attributes
     /// </summary>
     public class ColumnMappingAttribute : ColumnMappingAttributeBase
     {
-
+        /// <summary>
+        /// DataTable column name aliases
+        /// </summary>
         public string[] Aliases { get; protected set; }
 
         /// <summary>
         /// Indicates the column name(s) to map to this property
         /// </summary>
-        /// <param name="alisas"></param>
+        /// <param name="aliases"></param>
         public ColumnMappingAttribute(params string[] aliases)
         {
             Aliases = aliases;

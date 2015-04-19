@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\DataTableMapper.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,11 +49,9 @@
     <Compile Include="Attributes\Core\DataMapperAttribute.cs" />
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
     <Compile Include="Attributes\PropertyMappingAttribute.cs" />
-    <Compile Include="Attributes\ValueConversionAttribute.cs" />
     <Compile Include="Attributes\ValueConversionAttributes\BoolValueConversionAttribute.cs" />
     <Compile Include="DataTable\DataTableExtensions.cs" />
     <Compile Include="DataTable\IPreProcessor.cs" />
-    <Compile Include="DataTable\Mapping.cs" />
     <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Mapping\ColumnNameAttributeMapping.cs" />
     <Compile Include="Mapping\DefaultValueAttributeMapping.cs" />

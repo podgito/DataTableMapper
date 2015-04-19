@@ -5,10 +5,11 @@ using System.Text;
 
 namespace DataTableMapper.Attributes.Core
 {
-    public abstract class ColumnMappingAttributeBase : DataMapperAttribute
+    /// <summary>
+    /// Base Column Mapping Attribute
+    /// </summary>
+    public abstract class ColumnMappingAttributeBase : Attribute
     {
-
-
 
     }
 }
