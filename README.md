@@ -42,7 +42,7 @@ The `ColumnMappingAttribute` class can be inherited for custom functionality.
 
 Decorate a property with the `DefaultValueAttribute` to assign a value to the property in the case where no mapping can be done OR the mapping yields a `DBNull`.	
 
-	class Person
+		class Person
         {
             [DefaultValue(99)]
             public int Id { get; set; }
