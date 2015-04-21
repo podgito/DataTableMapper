@@ -16,8 +16,15 @@ and call the extension method
 
 	IEnumberable<MyClass> x = table.MapTo<MyClass>();
 	
-	
-#Column Mapping
+#Mapping
+
+The `MapTo` method attempts to find a value for each property of the class in the following steps in order:
+
+1. ColumnMappingAttributes - Map the property to a column with another name (NOT case sensitive)
+2. Property Name - Search for columns with the properties name (NOT case sensitive)
+3. DefaultValueAttributes - Provide default value in the case where both steps above were able to get a value for the property
+
+##Column Mapping
 
 By default the `MapTo` function will attempt to map a property to the table's column with the same name.
 
@@ -28,8 +35,39 @@ Decorate properties with the `ColumnMappingAttribute` to map a property to a col
 		[ColumnMapping("Id")]
 		public int MyClassId { get; set; }
 	}	
+	
+The `ColumnMappingAttribute` class can be inherited for custom functionality.
 		
-#Default Values
+##Default Values
 
 Decorate a property with the `DefaultValueAttribute` to assign a value to the property in the case where no mapping can be done OR the mapping yields a `DBNull`.	
+
+	class Person
+        {
+            [DefaultValue(99)]
+            public int Id { get; set; }
+
+            [DefaultValue("Johnny")]
+            public string Name { get; set; }
+
+            [DefaultValue(true)]
+            public bool IsGreat { get; set; }
+        }
+
+#Conversion
+
+For columns returning a different type to the property type. The `BoolValueConversionAttribute` comes with the library for converting columns returning `Integer` and converts it to a `Boolean` with C-like rules.
+
+	class MyClass
+        {
+            [BoolValueConversion]
+            public bool Val { get; set; }
+        }
+
+#Extensibility
+
+For your own custom conversion (e.g. Decryption) create an Attribute implementing the `IValueConversion` interface. 
+
+N.B. Also inherit the `ColumnMappingAttribute` class to have column mapping with the attribute.
+
 
