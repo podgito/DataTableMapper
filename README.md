@@ -58,7 +58,7 @@ Decorate a property with the `DefaultValueAttribute` to assign a value to the pr
 
 For columns returning a different type to the property type. The `BoolValueConversionAttribute` comes with the library for converting columns returning `Integer` and converts it to a `Boolean` with C-like rules.
 
-	class MyClass
+		class MyClass
         {
             [BoolValueConversion]
             public bool Val { get; set; }
