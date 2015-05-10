@@ -19,10 +19,33 @@ namespace DataTableMapper
 
         static IEnumerable<IValueConversion> _converters = new List<IValueConversion>();
 
+        /// <summary>
+        /// Maps DataTable to type T's properties for each row in table
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns>Enumerable of T</returns>
+        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
+        {
+            return MapTo<T>(table, new NullPreProcessor());
+        }
 
+        /// <summary>
+        /// Maps a column to an IEnumerable of T, where T is a primitive or string (simple types)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="columnName">The table column name to read</param>
+        /// <returns>Enumerable of T</returns>
+        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, string columnName) where T : IComparable
+        {
+            foreach (DataRow row in table.Rows)
+            {
+                yield return row[columnName] == DBNull.Value ? default(T) : row.Field<T>(columnName);
+            }
+        }
 
-        //Property mapping attribute
-        //Property name
+        #region Private Methods
 
         private static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, IPreProcessor preProcessor) where T : new()
         {
@@ -109,31 +132,9 @@ namespace DataTableMapper
         {
             return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime);
         }
+        #endregion
 
-        /// <summary>
-        /// Maps DataTable to type T's properties for each row in table
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="table"></param>
-        /// <returns>Enumerable of T</returns>
-        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
-        {
-            return MapTo<T>(table, new NullPreProcessor());
-        }
 
-        /// <summary>
-        /// Maps a column to an IEnumerable of T, where T is a primitive or string (simple types)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="table"></param>
-        /// <param name="columnName">The table column name to read</param>
-        /// <returns>Enumerable of T</returns>
-        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, string columnName) where T : IComparable
-        {
-            foreach (DataRow row in table.Rows)
-            {
-                yield return row[columnName] == DBNull.Value ? default(T) : row.Field<T>(columnName);
-            }
-        }
+        
     }
 }
