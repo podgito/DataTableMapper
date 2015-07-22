@@ -43,6 +43,8 @@ namespace DataTableMapper
 
             foreach (var property in properties)
             {
+                if (IsToBeIgnored(property)) break;
+
                 object mappedValue = null;
 
                 if (TypeHelper.IsSimpleType(property.PropertyType))
@@ -85,6 +87,11 @@ namespace DataTableMapper
                 return converter.Convert(value);
             }
             else return value;
+        }
+
+        private static bool IsToBeIgnored(PropertyInfo property)
+        {
+            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Any();
         }
 
         /// <summary>

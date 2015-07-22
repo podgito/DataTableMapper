@@ -48,6 +48,7 @@
     <Compile Include="Attributes\Core\ColumnMappingAttributeBase.cs" />
     <Compile Include="Attributes\Core\DataMapperAttribute.cs" />
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
+    <Compile Include="Attributes\IgnoreMappingAttribute.cs" />
     <Compile Include="Attributes\PropertyMappingAttribute.cs" />
     <Compile Include="Attributes\ValueConversionAttributes\BoolValueConversionAttribute.cs" />
     <Compile Include="DataTable\DataTableExtensions.cs" />
