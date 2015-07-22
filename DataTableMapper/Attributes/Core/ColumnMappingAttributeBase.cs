@@ -5,7 +5,7 @@ namespace DataTableMapper.Attributes.Core
     /// <summary>
     /// Base Column Mapping Attribute
     /// </summary>
-    public abstract class ColumnMappingAttributeBase : Attribute
+    public abstract class ColumnMappingAttributeBase : DataMapperAttribute
     {
     }
 }
