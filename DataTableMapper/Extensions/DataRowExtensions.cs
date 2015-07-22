@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace DataTableMapper.Extensions
 {
-    static class DataRowExtensions
+    internal static class DataRowExtensions
     {
         /// <summary>
         /// Try to get a value from the row for the specified column name
@@ -23,6 +20,5 @@ namespace DataTableMapper.Extensions
 
             return value;
         }
-
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DataTableMapper.Attributes;
+using DataTableMapper.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
-using DataTableMapper.Attributes;
 using System.Linq;
-using DataTableMapper.Attributes.Core;
-using DataTableMapper.Mapping;
+using System.Reflection;
 
 namespace DataTableMapper
 {
@@ -15,7 +14,7 @@ namespace DataTableMapper
     public static class DataTableExtensions
     {
         //Applying open-closed principle - order is important!!
-        static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping(), new DefaultValueAttributeMapping() };
+        private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping(), new DefaultValueAttributeMapping() };
 
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
@@ -48,7 +47,6 @@ namespace DataTableMapper
 
                 if (TypeHelper.IsSimpleType(property.PropertyType))
                 {
-
                     // 1) Mapping
                     foreach (var mapping in _mappings)
                     {
@@ -58,7 +56,6 @@ namespace DataTableMapper
 
                     //2) conversion
                     object convertedMappedValue = AttributeConversion(property, mappedValue);
-
 
                     if (convertedMappedValue == null)
                     {
@@ -75,14 +72,10 @@ namespace DataTableMapper
 
                     property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
                 }
-
-
             }
 
             return x;
         }
-
-
 
         private static object AttributeConversion(PropertyInfo property, object value)
         {
@@ -92,9 +85,7 @@ namespace DataTableMapper
                 return converter.Convert(value);
             }
             else return value;
-           
         }
-
 
         /// <summary>
         /// Maps a column to an IEnumerable of T, where T is a primitive or string (simple types)

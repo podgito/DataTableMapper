@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DataTableMapper.Attributes.Core
 {
@@ -10,6 +7,5 @@ namespace DataTableMapper.Attributes.Core
     /// </summary>
     public abstract class ColumnMappingAttributeBase : Attribute
     {
-
     }
 }
