@@ -43,7 +43,7 @@ namespace DataTableMapper
 
             foreach (var property in properties)
             {
-                if (IsToBeIgnored(property)) break;
+                if (IsToBeIgnored(property)) continue;
 
                 object mappedValue = null;
 

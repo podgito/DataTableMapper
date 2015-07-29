@@ -58,12 +58,46 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
         }
 
+        [Test]
+        public void IgnorePropertyThenSetTheRest()
+        {
+            //Arrange
+            var table = new DataTable();
+            table.Columns.Add("Name");
+            table.Columns.Add("ProductId");
+            table.Columns.Add("Description");
+
+            var productId = 123465;
+            var name = "Xbox";
+            var description = "Games console";
+
+            table.Rows.Add(name, productId, description);
+
+            //Act
+            var p = table.MapTo<Product>().First();
+
+            //Assert
+            Assert.AreEqual(name, p.Name);
+            Assert.AreEqual(0, p.ProductId);
+            Assert.AreEqual(description, p.Description);
+        }
+
         class SimplePersonIgnoreAge
         {
             public string Name { get; set; }
 
             [IgnoreMapping]
             public int Age { get; set; }
+        }
+
+        class Product
+        {
+            public string Name { get; set; }
+
+            [IgnoreMapping]
+            public int ProductId { get; set; }
+
+            public string Description { get; set; }
         }
 
 
