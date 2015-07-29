@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DataTableMapper.Mapping
 {
@@ -16,6 +17,21 @@ namespace DataTableMapper.Mapping
                 return Activator.CreateInstance(type);
             }
             return null;
+        }
+
+        public static bool IsEnumerable(Type type)
+        {
+            if (type == typeof(String)) return false;
+
+            foreach (Type intType in type.GetInterfaces())
+            {
+                if (intType.IsGenericType
+                    && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

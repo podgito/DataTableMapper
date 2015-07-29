@@ -27,5 +27,18 @@ namespace DataTableMapper.Tests.Mapping
             Assert.AreEqual(expectedIsSimpleType, isSimpleType);
         }
 
+        [Test]
+        public void IsEnumerableTest()
+        {
+            var list = new List<string>();
+            var array = new string[] { "Hello!" };
+
+            var @string = "MyString";
+
+            Assert.IsTrue(TypeHelper.IsEnumerable(list.GetType()));
+            Assert.IsTrue(TypeHelper.IsEnumerable(array.GetType()));
+            Assert.IsFalse(TypeHelper.IsEnumerable(@string.GetType()));
+        }
+
     }
 }

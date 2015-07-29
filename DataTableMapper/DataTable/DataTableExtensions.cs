@@ -91,7 +91,7 @@ namespace DataTableMapper
 
         private static bool IsToBeIgnored(PropertyInfo property)
         {
-            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Any();
+            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Any() || TypeHelper.IsEnumerable(property.PropertyType);
         }
 
         /// <summary>

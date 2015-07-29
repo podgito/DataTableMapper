@@ -8,6 +8,9 @@ using System.Text;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
+    /// <summary>
+    /// Testing use of the IgnoreMappingAttribute
+    /// </summary>
     [TestFixture]
     public class DataTableMapToClassWithIgnoreProperties
     {
@@ -81,6 +84,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(0, p.ProductId);
             Assert.AreEqual(description, p.Description);
         }
+
 
         class SimplePersonIgnoreAge
         {
