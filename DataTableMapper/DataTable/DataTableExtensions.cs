@@ -14,7 +14,8 @@ namespace DataTableMapper
     public static class DataTableExtensions
     {
         //Applying open-closed principle - order is important!!
-        private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping(), new DefaultValueAttributeMapping() };
+        private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping() };
+        private static DefaultValueAttributeMapping _defaultMapping = new DefaultValueAttributeMapping();
 
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
@@ -59,10 +60,14 @@ namespace DataTableMapper
                     //2) conversion
                     object convertedMappedValue = AttributeConversion(property, mappedValue);
 
+                    //3) Check for default values
+                    if (convertedMappedValue == null) convertedMappedValue = _defaultMapping.Map(property, row);
+
                     if (convertedMappedValue == null)
                     {
                         convertedMappedValue = TypeHelper.GetDefault(property.PropertyType);
                     }
+
 
                     property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
                 }
