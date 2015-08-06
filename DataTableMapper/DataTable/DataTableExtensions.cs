@@ -68,8 +68,8 @@ namespace DataTableMapper
                         convertedMappedValue = TypeHelper.GetDefault(property.PropertyType);
                     }
 
-
-                    property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
+                    SetPropertyValue(x, convertedMappedValue, property);
+                    //property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
                 }
                 else //complex type
                 {
@@ -82,6 +82,23 @@ namespace DataTableMapper
             }
 
             return x;
+        }
+
+        /// <summary>
+        /// set the property value converting it to the right type. Checks for nullables also
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="value"></param>
+        /// <param name="property"></param>
+        private static void SetPropertyValue(object obj, object value, PropertyInfo property)
+        {
+            Type conversionType = TypeHelper.IsNullable(property.PropertyType) ? Nullable.GetUnderlyingType(property.PropertyType) : property.PropertyType;
+
+
+            if (!(conversionType.IsValueType && value == null))
+            {
+                property.SetValue(obj, Convert.ChangeType(value, conversionType), null); 
+            }
         }
 
         private static object AttributeConversion(PropertyInfo property, object value)
