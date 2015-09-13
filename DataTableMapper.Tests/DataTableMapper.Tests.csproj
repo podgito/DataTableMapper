@@ -49,6 +49,7 @@
     <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributes.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributesAndAnotherAttribute.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithExtraPropertiesTests.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithIEnumerableProperty.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithIgnoreProperties.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithZeroRows.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToDBNullTests.cs" />

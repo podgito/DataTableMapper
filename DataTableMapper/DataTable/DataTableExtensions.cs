@@ -73,11 +73,17 @@ namespace DataTableMapper
                 }
                 else //complex type
                 {
-                    MethodInfo method = typeof(DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { property.PropertyType });
+                    try
+                    {
+                        MethodInfo method =
+                            typeof (DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static)
+                                .MakeGenericMethod(new Type[] {property.PropertyType});
 
-                    var complexPropertyInstance = method.Invoke(null, new object[] { row });
+                        var complexPropertyInstance = method.Invoke(null, new object[] {row});
 
-                    property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
+                        property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
+                    }
+                    catch (ArgumentException) { } //Catch exceptions where in input does not meet the generic constraint (parameterless constructor)
                 }
             }
 
