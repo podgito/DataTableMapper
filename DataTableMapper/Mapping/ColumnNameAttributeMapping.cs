@@ -1,19 +1,16 @@
 ﻿using DataTableMapper.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DataTableMapper.Extensions;
+using System;
+using System.Linq;
 
 namespace DataTableMapper.Mapping
 {
-    class ColumnNameAttributeMapping : IMapping
+    internal class ColumnNameAttributeMapping : IMapping
     {
         public object Map(System.Reflection.PropertyInfo property, System.Data.DataRow row)
         {
             if (TypeHelper.IsSimpleType(property.PropertyType))
             {
-
                 if (property.GetCustomAttributes(typeof(ColumnMappingAttribute), true).Any())
                 {
                     var mappingAttribute = (ColumnMappingAttribute)property.GetCustomAttributes(typeof(ColumnMappingAttribute), true).First(); //Ordering may be redundant if we linit to only 1 ColumnMappingAttribute per property
@@ -29,7 +26,6 @@ namespace DataTableMapper.Mapping
                         }
                         catch (ArgumentException) { }
                     }
-
                 }
                 return null;
             }
@@ -37,8 +33,6 @@ namespace DataTableMapper.Mapping
             {
                 throw new ArgumentException("Property must be a simple type");
             }
-
-
 
             throw new NotImplementedException();
         }

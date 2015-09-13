@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DataTableMapper.Attributes;
+using DataTableMapper.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
-using DataTableMapper.Attributes;
 using System.Linq;
-using DataTableMapper.Attributes.Core;
-using DataTableMapper.Mapping;
+using System.Reflection;
 
 namespace DataTableMapper
 {
@@ -15,9 +14,8 @@ namespace DataTableMapper
     public static class DataTableExtensions
     {
         //Applying open-closed principle - order is important!!
-        static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping(), new DefaultValueAttributeMapping() };
-
-        static IEnumerable<IValueConversion> _converters = new List<IValueConversion>();
+        private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping() };
+        private static DefaultValueAttributeMapping _defaultMapping = new DefaultValueAttributeMapping();
 
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
@@ -25,9 +23,97 @@ namespace DataTableMapper
         /// <typeparam name="T"></typeparam>
         /// <param name="table"></param>
         /// <returns>Enumerable of T</returns>
-        public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
+        public static IEnumerable<T> MapTo<T>(this DataTable table) where T : new()
         {
-            return MapTo<T>(table, new NullPreProcessor());
+            //Do the reflection magic!
+            //Go through all the properties of T and find columns for it
+
+            //http://stackoverflow.com/questions/1089123/setting-a-property-by-reflection-with-a-string-value
+
+            foreach (DataRow row in table.Rows)
+            {
+                yield return Map<T>(row);
+            }
+        }
+
+        private static T Map<T>(DataRow row) where T : new()
+        {
+            var x = new T();
+
+            var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
+
+            foreach (var property in properties)
+            {
+                if (IsToBeIgnored(property)) continue;
+
+                object mappedValue = null;
+
+                if (TypeHelper.IsSimpleType(property.PropertyType))
+                {
+                    // 1) Mapping
+                    foreach (var mapping in _mappings)
+                    {
+                        mappedValue = mapping.Map(property, row);
+                        if (mappedValue != null) break; //Break if we have gotten a value
+                    }
+
+                    //2) conversion
+                    object convertedMappedValue = AttributeConversion(property, mappedValue);
+
+                    //3) Check for default values
+                    if (convertedMappedValue == null) convertedMappedValue = _defaultMapping.Map(property, row);
+
+                    if (convertedMappedValue == null)
+                    {
+                        convertedMappedValue = TypeHelper.GetDefault(property.PropertyType);
+                    }
+
+                    SetPropertyValue(x, convertedMappedValue, property);
+                    //property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
+                }
+                else //complex type
+                {
+                    MethodInfo method = typeof(DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { property.PropertyType });
+
+                    var complexPropertyInstance = method.Invoke(null, new object[] { row });
+
+                    property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
+                }
+            }
+
+            return x;
+        }
+
+        /// <summary>
+        /// set the property value converting it to the right type. Checks for nullables also
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="value"></param>
+        /// <param name="property"></param>
+        private static void SetPropertyValue(object obj, object value, PropertyInfo property)
+        {
+            Type conversionType = TypeHelper.IsNullable(property.PropertyType) ? Nullable.GetUnderlyingType(property.PropertyType) : property.PropertyType;
+
+
+            if (!(conversionType.IsValueType && value == null))
+            {
+                property.SetValue(obj, Convert.ChangeType(value, conversionType), null); 
+            }
+        }
+
+        private static object AttributeConversion(PropertyInfo property, object value)
+        {
+            if (property.GetCustomAttributes(typeof(IValueConversion), true).Any())
+            {
+                var converter = (IValueConversion)property.GetCustomAttributes(typeof(IValueConversion), true).First();
+                return converter.Convert(value);
+            }
+            else return value;
+        }
+
+        private static bool IsToBeIgnored(PropertyInfo property)
+        {
+            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Any() || TypeHelper.IsEnumerable(property.PropertyType);
         }
 
         /// <summary>
@@ -44,97 +130,5 @@ namespace DataTableMapper
                 yield return row[columnName] == DBNull.Value ? default(T) : row.Field<T>(columnName);
             }
         }
-
-        #region Private Methods
-
-        private static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, IPreProcessor preProcessor) where T : new()
-        {
-            //Do the reflection magic!
-            //Go through all the properties of T and find columns for it
-
-            //http://stackoverflow.com/questions/1089123/setting-a-property-by-reflection-with-a-string-value
-
-            foreach (DataRow row in table.Rows)
-            {
-                yield return Map<T>(row);
-            }
-        }
-
-        //1) ColumnMappingAttributes to get a value for this property from a column (Column Mapping) return null or default value if none found
-        //2) Loop th
-
-        private static T Map<T>(DataRow row) where T : new()
-        {
-            var x = new T();
-
-
-
-            var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
-
-            foreach (var property in properties)
-            {
-                object mappedValue = null;
-
-                if (TypeHelper.IsSimpleType(property.PropertyType))
-                {
-
-                    // 1) Mapping
-                    foreach (var mapping in _mappings)
-                    {
-                        mappedValue = mapping.Map(property, row);
-                        if (mappedValue != null) break; //Break if we have gotten a value
-                    }
-
-                    //2) conversion
-
-                    object convertedMappedValue = AttributeConversion(property, mappedValue);
-
-
-                    if (convertedMappedValue == null)
-                    {
-                        convertedMappedValue = TypeHelper.GetDefault(property.PropertyType);
-                    }
-
-                    property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
-                }
-                else //complex type
-                {
-                    MethodInfo method = typeof(DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(new Type[] { property.PropertyType });
-
-                    var complexPropertyInstance = method.Invoke(null, new object[] { row });
-
-                    property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
-                }
-
-
-            }
-
-            return x;
-        }
-
-        private static object AttributeConversion(PropertyInfo property, object value)
-        {
-            if (property.GetCustomAttributes(typeof(IValueConversion), true).Any())
-            {
-                var converter = (IValueConversion)property.GetCustomAttributes(typeof(IValueConversion), true).First();
-                return converter.Convert(value);
-            }
-            else return value;
-           
-        }
-
-        private static object GetValueByPropertyName(DataRow row, PropertyInfo property)
-        {
-            return row[property.Name];
-        }
-
-        private static bool PrimitiveCheck(Type type)
-        {
-            return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime);
-        }
-        #endregion
-
-
-        
     }
 }

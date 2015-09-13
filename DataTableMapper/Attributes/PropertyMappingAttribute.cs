@@ -1,5 +1,4 @@
-﻿using DataTableMapper.Attributes.Core;
-using System;
+﻿using System;
 
 namespace DataTableMapper.Attributes
 {
@@ -12,10 +11,12 @@ namespace DataTableMapper.Attributes
         //public string[] Aliases { get; protected set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="aliases">An array of column names</param>
-        public PropertyMappingAttribute(params string[] aliases) : base(aliases) { }
+        public PropertyMappingAttribute(params string[] aliases) : base(aliases)
+        {
+        }
 
         /// <summary>
         /// The default convert just returns the input
@@ -26,8 +27,6 @@ namespace DataTableMapper.Attributes
         {
             return o;
         }
-
-
     }
 
     /// <summary>

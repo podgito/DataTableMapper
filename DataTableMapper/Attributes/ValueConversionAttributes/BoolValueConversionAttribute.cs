@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace DataTableMapper.Attributes
 {
     /// <summary>
@@ -10,9 +11,15 @@ namespace DataTableMapper.Attributes
         /// Map column to bool with Bool.TryParse and C-like value conversion attempts.
         /// </summary>
         /// <param name="aliases"></param>
-        public BoolValueConversionAttribute(params string[] aliases) : base(aliases) { }
+        public BoolValueConversionAttribute(params string[] aliases) : base(aliases)
+        {
+        }
 
-
+        /// <summary>
+        /// Convert object to bool using C-like rules and Bool.TryParse
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         public object Convert(object o)
         {
             if (o != null)
@@ -24,22 +31,21 @@ namespace DataTableMapper.Attributes
                 return toBoolValue || intValue > 0;
             }
             else return null;
-
         }
 
-        static bool ToBool(object o)
+        private static bool ToBool(object o)
         {
             var b = false;
-            bool.TryParse(o.ToString(), out b);
+            Boolean.TryParse(o.ToString(), out b);
 
             return b;
         }
 
-        static int IntegerValue(object o)
+        private static int IntegerValue(object o)
         {
             var x = 0;
             if (o != null)
-                int.TryParse(o.ToString(), out x);
+                Int32.TryParse(o.ToString(), out x);
             return x;
         }
     }

@@ -47,7 +47,9 @@
     <Compile Include="DataTableMapTo\DataTableMapToClassWithAttributeAliases.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithComplexProperties.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributes.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributesAndAnotherAttribute.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithExtraPropertiesTests.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithIgnoreProperties.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithZeroRows.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToDBNullTests.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToNullablesTests.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="DataTableMapTo\DataTablePrimitiveMappingsTests.cs" />
     <Compile Include="Extensions\DataRowExtensionsTests.cs" />
     <Compile Include="Mapping\TypeCheckerTests.cs" />
+    <Compile Include="MapToDynamic\MapToDynamicObjectTest.cs" />
     <Compile Include="MyTestClass.cs" />
     <Compile Include="Performance\MapToPerformanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +74,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

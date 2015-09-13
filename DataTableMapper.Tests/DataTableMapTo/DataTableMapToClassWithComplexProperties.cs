@@ -2,9 +2,13 @@
 using System;
 using System.Linq;
 using DataTableMapper.Attributes;
+using System.Collections.Generic;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
+    /// <summary>
+    /// Test mapping to sub-objects
+    /// </summary>
     [TestFixture]
     public class DataTableMapToClassWithComplexProperties
     {
@@ -13,7 +17,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
         public void MapToClassWithComplexObject1()
         {
             var table = new System.Data.DataTable();
-             
+
             var eventId = 123;
             var userId = 456;
 
@@ -40,7 +44,26 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(new DateTime(1910, 08, 01), e.User.DOB);
         }
 
+        [Test]
+        public void MapToClassWithListProperty()
+        {
+            var table = new System.Data.DataTable();
+
+            table.Columns.Add("Name");
+            table.Columns.Add("Age");
+
+            table.Rows.Add("Padraic Duffy", "20");
+
+            //Act
+            var p = table.MapTo<Person>().Single();
+
+            //Assert
+            Assert.AreEqual("Padraic Duffy", p.Name);
+            Assert.AreEqual(20, p.Age);
+            Assert.IsNull(p.ContactDetails);
+        }
     }
+
 
     public class TestEvent
     {
@@ -68,5 +91,14 @@ namespace DataTableMapper.Tests.DataTableMapTo
         [PropertyMapping("Surname")]
         public string LastName { get; set; }
         public string MiddleInitial { get; set; }
+    }
+
+    public class Person
+    {
+        public string Name { get; set; }
+
+        public List<string> ContactDetails { get; set; }
+
+        public int Age { get; set; }
     }
 }

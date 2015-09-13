@@ -1,8 +1,4 @@
 ﻿using DataTableMapper.Attributes.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DataTableMapper.Attributes
 {
@@ -11,12 +7,18 @@ namespace DataTableMapper.Attributes
     /// </summary>
     public class DefaultValueAttribute : DataMapperAttribute
     {
-        public object Value { get; protected set; }
+        /// <summary>
+        /// The default value for the property
+        /// </summary>
+        internal object Value { get; private set; }
 
+        /// <summary>
+        /// Setup a default value for the property after mapping if no mapping can be found or the value is DBNull
+        /// </summary>
+        /// <param name="value">The default value of the property</param>
         public DefaultValueAttribute(object value)
         {
             Value = value;
         }
-
     }
 }

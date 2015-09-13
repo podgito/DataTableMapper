@@ -1,5 +1,4 @@
-﻿
-namespace DataTableMapper
+﻿namespace DataTableMapper
 {
     /// <summary>
     /// Expose processing of object before setting property
@@ -12,17 +11,13 @@ namespace DataTableMapper
         /// <param name="value"></param>
         /// <returns></returns>
         object Process(object value);
-
-        
-
     }
 
-    class NullPreProcessor : IPreProcessor
+    internal class NullPreProcessor : IPreProcessor
     {
         public object Process(object value)
         {
             return value;
         }
     }
-
 }
