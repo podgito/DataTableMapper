@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>DataTableMapper</id>
+        <version>1.0.6</version>
+        <title>DataTable Mapper</title>
+        <authors>Padraic Duffy</authors>
+        <projectUrl>https://github.com/podgito/DataTableMapper</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/podgito/DataTableMapper/master/DataTableMapper/Misc/spreadsheet6%20(2).png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Map a DataTable to an Enumerable of objects</description>
+        <releaseNotes>1.0.6:
+Handle nullable property types
+
+1.0.5:
+Fixed issue where Conversion was overwriting default value to null
+
+1.0.4:
+Bug fixes and improvements
+Added IgnoreMapping Attribute
+
+1.0.3:
+Handling for DBNull
+
+Added DefaultValue attribute
+
+Bug fixes</releaseNotes>
+        <tags>DataTable DataTables DataRows Rows Map Mapping</tags>
+    </metadata>
+    <files>
+        <file src="lib\net35\DataTableMapper.dll" target="lib\net35\DataTableMapper.dll" />
+        <file src="lib\net35\DataTableMapper.XML" target="lib\net35\DataTableMapper.XML" />
+    </files>
+</package>

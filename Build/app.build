@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion ="4.0">
+
+  <ItemGroup>
+    <BuildArtifacts Include="buildartifacts" />
+    <Publish Include="published.web" />
+    <ProjectFile Include="../DataTableMapper.Tests/DataTableMapper.Tests.csproj" />
+  </ItemGroup>
+
+
+  <Target Name ="Clean">
+    <RemoveDir Directories ="@(BuildArtifacts)" />
+  </Target>
+  <Target Name="Init" DependsOnTargets ="Clean">
+    <MakeDir Directories ="@(BuildArtifacts)"/>
+	<MakeDir Directories ="@(Publish)"/>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets ="Init">
+    <MSBuild Projects ="@(ProjectFile)" Targets ="Rebuild" Properties ="OutDir=%(BuildArtifacts.FullPath);Configuration=$(Configuration);" />
+
+  </Target>
+  
+  <Target Name="Publish" DependsOnTargets="Init">
+    <MSBuild Projects ="@(ProjectFile)" Targets ="Package" Properties ="OutDir=%(Publish.FullPath);Configuration=$(Configuration);" />
+  </Target>
+
+
+
+</Project>
