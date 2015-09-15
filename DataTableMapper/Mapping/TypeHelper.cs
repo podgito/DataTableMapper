@@ -7,7 +7,7 @@ namespace DataTableMapper.Mapping
     {
         public static bool IsSimpleType(Type type)
         {
-            return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime) || IsNullable(type);
+            return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime) || IsNullable(type) || type.IsEnum;
         }
 
         public static object GetDefault(Type type)
@@ -38,5 +38,6 @@ namespace DataTableMapper.Mapping
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
+
     }
 }

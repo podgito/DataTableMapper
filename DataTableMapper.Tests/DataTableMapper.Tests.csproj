@@ -48,6 +48,7 @@
     <Compile Include="DataTableMapTo\DataTableMapToClassWithComplexProperties.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributes.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithDefaultValueAttributesAndAnotherAttribute.cs" />
+    <Compile Include="DataTableMapTo\DataTableMapToClassWithEnumProperty.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithExtraPropertiesTests.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithIEnumerableProperty.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithIgnoreProperties.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="MyTestClass.cs" />
     <Compile Include="Performance\MapToPerformanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConversion\EnumTypeConversionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

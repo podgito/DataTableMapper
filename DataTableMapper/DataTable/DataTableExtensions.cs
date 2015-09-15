@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using DataTableMapper.TypeConversion;
 
 namespace DataTableMapper
 {
@@ -16,6 +17,7 @@ namespace DataTableMapper
         //Applying open-closed principle - order is important!!
         private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping() };
         private static DefaultValueAttributeMapping _defaultMapping = new DefaultValueAttributeMapping();
+        private static IEnumerable<ITypeConverter> _typeConverters = new List<ITypeConverter> {new EnumTypeConverter(), new NullableTypeConverter(), new BaseTypeConverter()}; 
 
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
@@ -98,12 +100,11 @@ namespace DataTableMapper
         /// <param name="property"></param>
         private static void SetPropertyValue(object obj, object value, PropertyInfo property)
         {
-            Type conversionType = TypeHelper.IsNullable(property.PropertyType) ? Nullable.GetUnderlyingType(property.PropertyType) : property.PropertyType;
 
-
-            if (!(conversionType.IsValueType && value == null))
+            if (value != null)
             {
-                property.SetValue(obj, Convert.ChangeType(value, conversionType), null); 
+                var converter = _typeConverters.First(x => x.IsMatch(value.GetType(), property.PropertyType));
+                property.SetValue(obj, converter.Convert(value, property.PropertyType), null);
             }
         }
 

@@ -60,6 +60,10 @@
     <Compile Include="Mapping\PropertyNameMapping.cs" />
     <Compile Include="Mapping\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConversion\BaseTypeConverter.cs" />
+    <Compile Include="TypeConversion\EnumTypeConverter.cs" />
+    <Compile Include="TypeConversion\ITypeConverter.cs" />
+    <Compile Include="TypeConversion\NullableTypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Misc\spreadsheet6 %282%29.png" />
