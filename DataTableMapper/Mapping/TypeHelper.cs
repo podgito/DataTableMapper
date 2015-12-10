@@ -1,13 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace DataTableMapper.Mapping
 {
+    /// <summary>
+    /// Helping to categorise types!
+    /// </summary>
     internal class TypeHelper
     {
         public static bool IsSimpleType(Type type)
         {
-            return type.IsPrimitive || type == typeof(Decimal) || type == typeof(String) || type == typeof(DateTime) || IsNullable(type) || type.IsEnum;
+            return type.IsPrimitive
+                || type == typeof(Decimal)
+                || type == typeof(String)
+                || type == typeof(DateTime)
+                || IsNullable(type)
+                || type.IsEnum;
         }
 
         public static object GetDefault(Type type)
@@ -23,21 +31,12 @@ namespace DataTableMapper.Mapping
         {
             if (type == typeof(String)) return false;
 
-            foreach (Type intType in type.GetInterfaces())
-            {
-                if (intType.IsGenericType
-                    && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return type.GetInterfaces().Contains(typeof(System.Collections.IEnumerable));
         }
 
         public static bool IsNullable(Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
-
     }
 }

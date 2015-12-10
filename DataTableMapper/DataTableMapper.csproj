@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\DataTableMapper.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -52,7 +53,10 @@
     <Compile Include="Attributes\PropertyMappingAttribute.cs" />
     <Compile Include="Attributes\ValueConversionAttributes\BoolValueConversionAttribute.cs" />
     <Compile Include="DataTable\DataTableExtensions.cs" />
-    <Compile Include="DataTable\IPreProcessor.cs" />
+    <Compile Include="Mapping\ComplexTypePropertyMapping.cs" />
+    <Compile Include="Mapping\IgnorePropertyMapping.cs" />
+    <Compile Include="Mapping\IPropertyMapping.cs" />
+    <Compile Include="Mapping\ISimpleTypePropertyMapping.cs" />
     <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Mapping\ColumnNameAttributeMapping.cs" />
     <Compile Include="Mapping\DefaultValueAttributeMapping.cs" />
