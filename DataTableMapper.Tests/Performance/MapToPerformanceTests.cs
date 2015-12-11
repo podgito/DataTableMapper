@@ -1,25 +1,21 @@
-﻿using NUnit.Framework;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using DataTableMapper;
-using DataTableMapper.Attributes;
 
 namespace DataTableMapper.Tests.Performance
 {
     [TestFixture]
     public class MapToPerformanceTests
     {
-
         [Test]
         public void ManualControlTest()
         {
             //Arrange
             var table = new DataTable();
             table.Columns.Add("IntegerValue");
-
 
             for (int i = 0; i < 1000; i++)
                 table.Rows.Add(i);
@@ -34,7 +30,6 @@ namespace DataTableMapper.Tests.Performance
             //Arrange
             var table = new DataTable();
             table.Columns.Add("IntegerAlias");
-
 
             for (int i = 0; i < 1000; i++)
                 table.Rows.Add(i);
@@ -53,7 +48,6 @@ namespace DataTableMapper.Tests.Performance
 
             //Act
             Act(table);
-
         }
 
         [Test]
@@ -63,14 +57,11 @@ namespace DataTableMapper.Tests.Performance
             var table = new DataTable();
             table.Columns.Add("IntegerValue");
 
-
             for (int i = 0; i < 1000; i++)
                 table.Rows.Add(i);
 
-
             //Act
             Act(table);
-
         }
 
         [Test]
@@ -83,7 +74,6 @@ namespace DataTableMapper.Tests.Performance
 
             //Act
             Act(table);
-
         }
 
         [Test]
@@ -97,9 +87,7 @@ namespace DataTableMapper.Tests.Performance
 
             //Act
             Act(table);
-
         }
-
 
         private void Act(DataTable table)
         {
@@ -108,7 +96,7 @@ namespace DataTableMapper.Tests.Performance
 
         private IEnumerable<SinglePropertyClass> ControlTest(DataTable table, string columnName)
         {
-            foreach(var row in table.AsEnumerable())
+            foreach (var row in table.AsEnumerable())
             {
                 var c = new SinglePropertyClass();
 
@@ -116,15 +104,12 @@ namespace DataTableMapper.Tests.Performance
 
                 yield return c;
             }
-
         }
 
-        class SinglePropertyClass
+        private class SinglePropertyClass
         {
             [PropertyMapping("IntegerAlias")]
             public int IntegerValue { get; set; }
         }
-
     }
-
 }

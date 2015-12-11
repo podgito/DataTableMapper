@@ -11,8 +11,7 @@ namespace DataTableMapper
     /// </summary>
     public static class DataTableExtensions
     {
-        //Order is important!
-        private static IEnumerable<IPropertyMapping> _propertyMappings = new List<IPropertyMapping> { new IgnorePropertyMapping(), new SimpleTypePropertyMapping(), new ComplexTypePropertyMapping() };
+        private static PropertyMappingFactory _factory = new PropertyMappingFactory();
 
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
@@ -41,7 +40,7 @@ namespace DataTableMapper
 
             foreach (var property in properties)
             {
-                var mapping = _propertyMappings.First(m => m.IsMatch(property));
+                var mapping = _factory.Create(property);
                 mapping.PerformMapping<T>(x, property, row);
             }
 

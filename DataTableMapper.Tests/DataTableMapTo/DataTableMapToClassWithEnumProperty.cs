@@ -1,19 +1,15 @@
 ﻿using DataTableMapper.Attributes;
 using NUnit.Framework;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTableMapToClassWithEnumProperty
     {
-
-        class Person
+        private class Person
         {
             [ColumnMapping("MyGender")]
             public Gender Gender { get; set; }
@@ -25,7 +21,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Female
         }
 
-
         [Test, TestCaseSource(typeof(TestDataSource))]
         public Gender EnumByPropertyName(DataTable table)
         {
@@ -34,9 +29,9 @@ namespace DataTableMapper.Tests.DataTableMapTo
             return person.Gender;
         }
 
-        class TestDataSource : IEnumerable
+        private class TestDataSource : IEnumerable
         {
-            static IEnumerable GetData()
+            private static IEnumerable GetData()
             {
                 var table1 = new DataTable();
                 table1.Columns.Add("Gender", typeof(int));
@@ -50,13 +45,11 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
                 yield return new TestCaseData(table2).Returns(Gender.Female);
             }
+
             public IEnumerator GetEnumerator()
             {
                 return GetData().GetEnumerator();
             }
         }
-
-
-
     }
 }

@@ -6,7 +6,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
     [TestFixture]
     public class DataTablePrimitiveMappingsTests
     {
-
         [Test]
         public void MapSingleColumnTableToStrings()
         {
@@ -23,9 +22,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(2, values.Count());
             Assert.AreEqual("Val1", values.First());
             Assert.AreEqual("Val2", values.Skip(1).First());
-
-
-
         }
 
         [Test]
@@ -46,7 +42,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
         }
 
         [Test]
-        
         public void MapSingleColumnTableNullToIntegers()
         {
             var table = CreateTable();
@@ -73,9 +68,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             table.Columns.Add("datetime");
 
             return table;
-
         }
-
-
     }
 }

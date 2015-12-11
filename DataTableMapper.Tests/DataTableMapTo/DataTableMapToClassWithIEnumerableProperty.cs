@@ -1,19 +1,17 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
 using System.Data;
+using System.Linq;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTableMapToClassWithIEnumerableProperty
     {
-        class Person
+        private class Person
         {
             public string Name { get; set; }
-            public IEnumerable<string> Attributes { get; set; } 
+            public IEnumerable<string> Attributes { get; set; }
         }
 
         [Test]
@@ -30,7 +28,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.IsNull(person.Attributes);
         }
 
-
         private DataTable CreateTable()
         {
             var table = new DataTable();
@@ -39,6 +36,5 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             return table;
         }
-
     }
 }

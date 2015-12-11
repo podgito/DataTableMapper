@@ -64,6 +64,7 @@
     <Compile Include="DataTableMapTo\DataTablePrimitiveMappingsTests.cs" />
     <Compile Include="Extensions\DataRowExtensionsTests.cs" />
     <Compile Include="Mapping\IgnorePropertyMappingTests.cs" />
+    <Compile Include="Mapping\PropertyMappingFactoryTests.cs" />
     <Compile Include="Mapping\TypeHelperTests.cs" />
     <Compile Include="MapToDynamic\MapToDynamicObjectTest.cs" />
     <Compile Include="MyTestClass.cs" />

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace DataTableMapper.Mapping
 {
-    class ComplexTypePropertyMapping : IPropertyMapping
+    internal class ComplexTypePropertyMapping : IPropertyMapping
     {
         public bool IsMatch(PropertyInfo property)
         {

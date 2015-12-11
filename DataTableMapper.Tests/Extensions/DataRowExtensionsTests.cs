@@ -1,17 +1,14 @@
-﻿using NUnit.Framework;
+﻿using DataTableMapper.Extensions;
+using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using DataTableMapper.Extensions;
 
 namespace DataTableMapper.Tests.Extensions
 {
     [TestFixture]
     public class DataRowExtensionsTests
     {
-
         [Test]
         public void ReturnNullForDBNull()
         {
@@ -30,11 +27,10 @@ namespace DataTableMapper.Tests.Extensions
 
             //Assert
             Assert.IsNull(value);
-
         }
 
         [Test]
-        public void ReturnsNullWhenColumnDoesntExist()  
+        public void ReturnsNullWhenColumnDoesntExist()
         {
             //Arrange
 
@@ -52,6 +48,5 @@ namespace DataTableMapper.Tests.Extensions
             //Assert
             Assert.IsNull(value);
         }
-
     }
 }

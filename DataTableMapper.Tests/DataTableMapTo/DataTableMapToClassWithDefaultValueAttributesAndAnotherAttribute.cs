@@ -1,11 +1,8 @@
-﻿using NUnit.Framework;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DataTableMapper;
-using DataTableMapper.Attributes;
 using System.Data;
+using System.Linq;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
@@ -25,11 +22,9 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.AreEqual("", person.ImageUrl);
-
         }
-
-
     }
+
     public class TestPerson
     {
         [DefaultValue("")]

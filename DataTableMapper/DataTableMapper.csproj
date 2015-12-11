@@ -61,6 +61,7 @@
     <Compile Include="Mapping\ColumnNameAttributeMapping.cs" />
     <Compile Include="Mapping\DefaultValueAttributeMapping.cs" />
     <Compile Include="Mapping\IMapping.cs" />
+    <Compile Include="Mapping\PropertyMappingFactory.cs" />
     <Compile Include="Mapping\PropertyNameMapping.cs" />
     <Compile Include="Mapping\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

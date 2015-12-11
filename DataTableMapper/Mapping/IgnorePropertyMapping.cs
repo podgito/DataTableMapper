@@ -1,5 +1,4 @@
 ﻿using DataTableMapper.Attributes;
-using DataTableMapper.Mapping;
 using System.Data;
 using System.Linq;
 using System.Reflection;

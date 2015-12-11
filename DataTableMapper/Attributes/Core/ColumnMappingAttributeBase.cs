@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DataTableMapper.Attributes.Core
+﻿namespace DataTableMapper.Attributes.Core
 {
     /// <summary>
     /// Base Column Mapping Attribute

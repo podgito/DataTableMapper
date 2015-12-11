@@ -1,16 +1,13 @@
 ﻿using DataTableMapper.Attributes;
-using DataTableMapper.Mapping;
 using DataTableMapper.TypeConversion;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace DataTableMapper.Mapping
 {
-    class SimpleTypePropertyMapping : IPropertyMapping
+    internal class SimpleTypePropertyMapping : IPropertyMapping
     {
         private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping() };
         private static IEnumerable<ITypeConverter> _typeConverters = new List<ITypeConverter> { new EnumTypeConverter(), new NullableTypeConverter(), new BaseTypeConverter() };
@@ -63,7 +60,6 @@ namespace DataTableMapper.Mapping
         /// <param name="property"></param>
         private static void SetPropertyValue(object obj, object value, PropertyInfo property)
         {
-
             if (value != null)
             {
                 var converter = _typeConverters.First(x => x.IsMatch(value.GetType(), property.PropertyType));
