@@ -30,7 +30,7 @@ namespace DataTableMapper.Attributes
 
                 return toBoolValue || intValue > 0;
             }
-            else return null;
+            else return false;
         }
 
         private static bool ToBool(object o)

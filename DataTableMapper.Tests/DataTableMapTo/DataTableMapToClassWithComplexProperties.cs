@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System;
-using System.Linq;
-using DataTableMapper.Attributes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
@@ -12,7 +12,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
     [TestFixture]
     public class DataTableMapToClassWithComplexProperties
     {
-
         [Test]
         public void MapToClassWithComplexObject1()
         {
@@ -64,14 +63,13 @@ namespace DataTableMapper.Tests.DataTableMapTo
         }
     }
 
-
     public class TestEvent
     {
         [PropertyMapping("EventId")]
         public int Id { get; set; }
+
         public string Description { get; set; }
         public TestUser User { get; set; }
-
     }
 
     public class TestUser
@@ -81,7 +79,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
         [PropertyMapping("DateOfBirth")]
         public DateTime DOB { get; set; }
-
     }
 
     public class TestName
@@ -90,6 +87,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
         [PropertyMapping("Surname")]
         public string LastName { get; set; }
+
         public string MiddleInitial { get; set; }
     }
 

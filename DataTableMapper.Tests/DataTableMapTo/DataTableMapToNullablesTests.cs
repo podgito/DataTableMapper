@@ -1,8 +1,7 @@
-﻿using NUnit.Framework;
-using System.Linq;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System;
-using DataTableMapper;
-using DataTableMapper.Attributes;
+using System.Linq;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
@@ -17,24 +16,20 @@ namespace DataTableMapper.Tests.DataTableMapTo
             var table = CreateTable();
             table.Rows.Add(DBNull.Value, DBNull.Value);
 
-
             //Act
             var list = table.MapTo<NullableTypesClass>();
             var x = list.First();
             //Assert
             Assert.AreEqual(1, list.Count());
 
-
             Assert.AreEqual(null, x.NullableInt);
         }
-
 
         [Test]
         public void ReadValuesFromRowToNullableTypes()
         {
             var table = CreateTable();
             table.Rows.Add(123, 1);
-
 
             //Act
             var list = table.MapTo<NullableTypesClass>();
@@ -58,7 +53,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.IsNull(x.Date);
-
         }
 
         [Test]
@@ -76,7 +70,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             //Assert
             Assert.AreEqual(nowDate, x.Date);
         }
-
 
         public class NullableTypesClass
         {

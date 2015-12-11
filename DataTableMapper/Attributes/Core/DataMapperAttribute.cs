@@ -9,5 +9,4 @@ namespace DataTableMapper.Attributes.Core
     public abstract class DataMapperAttribute : Attribute
     {
     }
-
 }

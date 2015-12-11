@@ -27,7 +27,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual("Padraic Duffy", c1.Name);
             Assert.AreEqual(1.82, c1.Height);
             Assert.AreEqual(new DateTime(1910, 03, 08), c1.DOB);
-
         }
 
         [Test]
@@ -57,11 +56,8 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual("Jimmy Maguire", c2.Name);
             Assert.AreEqual(1.78, c2.Height);
             Assert.AreEqual(new DateTime(1986, 09, 11), c2.DOB);
-
         }
 
-
-        
         private System.Data.DataTable CreateTable()
         {
             var table = new System.Data.DataTable();
@@ -71,10 +67,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
             table.Columns.Add("DOB");
             table.Columns.Add("Height");
 
-
-
             return table;
         }
-
     }
 }

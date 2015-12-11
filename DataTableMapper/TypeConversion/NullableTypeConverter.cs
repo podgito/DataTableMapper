@@ -1,9 +1,12 @@
-using System;
 using DataTableMapper.Mapping;
+using System;
 
 namespace DataTableMapper.TypeConversion
 {
-    class NullableTypeConverter : ITypeConverter
+    /// <summary>
+    /// Convert a value to a nullable type
+    /// </summary>
+    internal class NullableTypeConverter : ITypeConverter
     {
         public object Convert(object value, Type toType)
         {

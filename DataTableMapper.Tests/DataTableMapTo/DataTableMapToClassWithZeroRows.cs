@@ -1,21 +1,16 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System.Data;
 using System.Linq;
-using System.Text;
-using DataTableMapper.Attributes;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTableMapToClassWithZeroRows
     {
-
         [Test]
         public void ReturnsEmptyEnumerableIfThereAreNoRows()
         {
-
             var table = new DataTable();
 
             table.Columns.Add("Id");
@@ -26,10 +21,9 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.AreEqual(0, list.Count());
-
         }
 
-        class SimpleClass
+        private class SimpleClass
         {
             public int Id { get; set; }
             public string Name { get; set; }
@@ -38,7 +32,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
         [Test]
         public void ReturnsEmptyEnumerableIfThereAreNoRows2()
         {
-
             var table = new DataTable();
 
             table.Columns.Add("ClassId");
@@ -49,14 +42,13 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.AreEqual(0, list.Count());
-
         }
 
-
-        class SimpleClass2
+        private class SimpleClass2
         {
             [ColumnMapping("ClassId")]
             public int Id { get; set; }
+
             public string Name { get; set; }
         }
     }

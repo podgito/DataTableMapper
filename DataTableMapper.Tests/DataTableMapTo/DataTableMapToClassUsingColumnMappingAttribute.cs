@@ -1,18 +1,13 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System.Data;
 using System.Linq;
-using System.Text;
-using DataTableMapper;
-using DataTableMapper.Attributes;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
     [TestFixture]
     public class DataTableMapToClassUsingColumnMappingAttribute
     {
-
         [Test]
         public void PropertyNameMappingTest()
         {
@@ -32,7 +27,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             //Assert
             Assert.AreEqual(name, x.Name);
             Assert.AreEqual(age, x.Age);
-
         }
 
         [Test]
@@ -54,7 +48,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             //Assert
             Assert.AreEqual(name, x.Name);
             Assert.AreEqual(age, x.Age);
-            
         }
 
         [Test]
@@ -76,10 +69,9 @@ namespace DataTableMapper.Tests.DataTableMapTo
             //Assert
             Assert.AreEqual(name, x.Name);
             Assert.AreEqual(age, x.Age);
-
         }
 
-        class ColumnMappingTestClass
+        private class ColumnMappingTestClass
         {
             [ColumnMapping("MyName")]
             public string Name { get; set; }
@@ -88,7 +80,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
             public int Age { get; set; }
         }
 
-        class ColumnMappingTestClass2
+        private class ColumnMappingTestClass2
         {
             [ColumnMapping("MyName", "ThisName")]
             public string Name { get; set; }
@@ -96,6 +88,5 @@ namespace DataTableMapper.Tests.DataTableMapTo
             [ColumnMapping("MyAge", "ThisAge")]
             public int Age { get; set; }
         }
-
     }
 }

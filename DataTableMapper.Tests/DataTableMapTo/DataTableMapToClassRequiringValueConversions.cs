@@ -1,14 +1,12 @@
-﻿using NUnit.Framework;
+﻿using DataTableMapper.Attributes;
+using NUnit.Framework;
 using System.Linq;
-using DataTableMapper.Attributes;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
-
     [TestFixture]
     public class DataTableMapToClassRequiringValueConversions
     {
-
         [Test]
         [TestCase(true, true)]
         [TestCase("true", true)]
@@ -32,9 +30,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.AreEqual(expectedOutcome, c.Val);
-
-
-
         }
 
         [Test]
@@ -58,17 +53,13 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.AreEqual(expectedOutcome, c.Val);
-
-
-
         }
 
-        class TestClass1
+        private class TestClass1
         {
             [BoolValueConversion("SomeNonBool")]
             public bool Val { get; set; }
         }
-
 
         [Test]
         [TestCase("true", true)]
@@ -93,11 +84,9 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(expectedOutcome, c.Val);
         }
 
-        class TestClass2
+        private class TestClass2
         {
             public TestClass1 P1 { get; set; }
         }
-       
-
     }
 }

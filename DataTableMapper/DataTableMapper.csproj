@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\DataTableMapper.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,13 +51,17 @@
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
     <Compile Include="Attributes\IgnoreMappingAttribute.cs" />
     <Compile Include="Attributes\PropertyMappingAttribute.cs" />
-    <Compile Include="Attributes\ValueConversionAttributes\BoolValueConversionAttribute.cs" />
+    <Compile Include="Attributes\BoolValueConversionAttribute.cs" />
     <Compile Include="DataTable\DataTableExtensions.cs" />
-    <Compile Include="DataTable\IPreProcessor.cs" />
+    <Compile Include="Mapping\ComplexTypePropertyMapping.cs" />
+    <Compile Include="Mapping\IgnorePropertyMapping.cs" />
+    <Compile Include="Mapping\IPropertyMapping.cs" />
+    <Compile Include="Mapping\SimpleTypePropertyMapping.cs" />
     <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Mapping\ColumnNameAttributeMapping.cs" />
     <Compile Include="Mapping\DefaultValueAttributeMapping.cs" />
     <Compile Include="Mapping\IMapping.cs" />
+    <Compile Include="Mapping\PropertyMappingFactory.cs" />
     <Compile Include="Mapping\PropertyNameMapping.cs" />
     <Compile Include="Mapping\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,9 +69,6 @@
     <Compile Include="TypeConversion\EnumTypeConverter.cs" />
     <Compile Include="TypeConversion\ITypeConverter.cs" />
     <Compile Include="TypeConversion\NullableTypeConverter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Misc\spreadsheet6 %282%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

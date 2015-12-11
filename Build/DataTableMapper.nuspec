@@ -6,7 +6,6 @@
         <title>DataTable Mapper</title>
         <authors>Padraic Duffy</authors>
         <projectUrl>https://github.com/podgito/DataTableMapper</projectUrl>
-        <iconUrl>https://raw.githubusercontent.com/podgito/DataTableMapper/master/DataTableMapper/Misc/spreadsheet6%20(2).png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Map a DataTable to an Enumerable of objects</description>
         <tags>DataTable DataTables DataRows Rows Map Mapping</tags>

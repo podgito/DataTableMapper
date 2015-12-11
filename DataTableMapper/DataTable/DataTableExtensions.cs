@@ -1,11 +1,8 @@
-﻿using DataTableMapper.Attributes;
-using DataTableMapper.Mapping;
+﻿using DataTableMapper.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
-using DataTableMapper.TypeConversion;
 
 namespace DataTableMapper
 {
@@ -14,10 +11,7 @@ namespace DataTableMapper
     /// </summary>
     public static class DataTableExtensions
     {
-        //Applying open-closed principle - order is important!!
-        private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping() };
-        private static DefaultValueAttributeMapping _defaultMapping = new DefaultValueAttributeMapping();
-        private static IEnumerable<ITypeConverter> _typeConverters = new List<ITypeConverter> {new EnumTypeConverter(), new NullableTypeConverter(), new BaseTypeConverter()}; 
+        private static PropertyMappingFactory _factory = new PropertyMappingFactory();
 
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
@@ -46,81 +40,11 @@ namespace DataTableMapper
 
             foreach (var property in properties)
             {
-                if (IsToBeIgnored(property)) continue;
-
-                object mappedValue = null;
-
-                if (TypeHelper.IsSimpleType(property.PropertyType))
-                {
-                    // 1) Mapping
-                    foreach (var mapping in _mappings)
-                    {
-                        mappedValue = mapping.Map(property, row);
-                        if (mappedValue != null) break; //Break if we have gotten a value
-                    }
-
-                    //2) conversion
-                    object convertedMappedValue = AttributeConversion(property, mappedValue);
-
-                    //3) Check for default values
-                    if (convertedMappedValue == null) convertedMappedValue = _defaultMapping.Map(property, row);
-
-                    if (convertedMappedValue == null)
-                    {
-                        convertedMappedValue = TypeHelper.GetDefault(property.PropertyType);
-                    }
-
-                    SetPropertyValue(x, convertedMappedValue, property);
-                    //property.SetValue(x, Convert.ChangeType(convertedMappedValue, property.PropertyType), null);
-                }
-                else //complex type
-                {
-                    try
-                    {
-                        MethodInfo method =
-                            typeof (DataTableExtensions).GetMethod("Map", BindingFlags.NonPublic | BindingFlags.Static)
-                                .MakeGenericMethod(new Type[] {property.PropertyType});
-
-                        var complexPropertyInstance = method.Invoke(null, new object[] {row});
-
-                        property.SetValue(x, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
-                    }
-                    catch (ArgumentException) { } //Catch exceptions where in input does not meet the generic constraint (parameterless constructor)
-                }
+                var mapping = _factory.Create(property);
+                mapping.PerformMapping<T>(x, property, row);
             }
 
             return x;
-        }
-
-        /// <summary>
-        /// set the property value converting it to the right type. Checks for nullables also
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        /// <param name="property"></param>
-        private static void SetPropertyValue(object obj, object value, PropertyInfo property)
-        {
-
-            if (value != null)
-            {
-                var converter = _typeConverters.First(x => x.IsMatch(value.GetType(), property.PropertyType));
-                property.SetValue(obj, converter.Convert(value, property.PropertyType), null);
-            }
-        }
-
-        private static object AttributeConversion(PropertyInfo property, object value)
-        {
-            if (property.GetCustomAttributes(typeof(IValueConversion), true).Any())
-            {
-                var converter = (IValueConversion)property.GetCustomAttributes(typeof(IValueConversion), true).First();
-                return converter.Convert(value);
-            }
-            else return value;
-        }
-
-        private static bool IsToBeIgnored(PropertyInfo property)
-        {
-            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Any() || TypeHelper.IsEnumerable(property.PropertyType);
         }
 
         /// <summary>

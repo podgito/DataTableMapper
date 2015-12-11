@@ -1,18 +1,14 @@
 ﻿using DataTableMapper.Attributes;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
-
     [TestFixture]
     public class DataTableMapToDBNullTests
     {
-
         [Test]
         public void MapToDefaultWhenNoMapping()
         {
@@ -25,7 +21,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             //Assert
             Assert.AreEqual(null, c.Name);
-            
         }
 
         [Test]
@@ -56,11 +51,10 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(null, c.Name);
         }
 
-        class MyUnitTestClass
+        private class MyUnitTestClass
         {
             [ColumnMapping("MyName")]
             public string Name { get; set; }
         }
-
     }
 }

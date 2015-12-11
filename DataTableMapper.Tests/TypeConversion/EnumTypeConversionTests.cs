@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using DataTableMapper.TypeConversion;
+﻿using DataTableMapper.TypeConversion;
 using NUnit.Framework;
+using System;
 using System.Collections;
 
 namespace DataTableMapper.Tests.TypeConversion
@@ -12,23 +8,24 @@ namespace DataTableMapper.Tests.TypeConversion
     [TestFixture]
     public class EnumTypeConversionTests
     {
-        private ITypeConverter _enumTypConverter;
+        private ITypeConverter _enumTypeConverter;
+
         [SetUp]
         public void Setup()
         {
-            _enumTypConverter = new EnumTypeConverter();
+            _enumTypeConverter = new EnumTypeConverter();
         }
 
         [Test, TestCaseSource(typeof(TestCaseMatchesDataSource))]
         public bool OnlyMatchOnEnumTypes(Type type)
         {
-            return _enumTypConverter.IsMatch(typeof(object), type);
+            return _enumTypeConverter.IsMatch(typeof(object), type);
         }
 
         [Test, TestCaseSource(typeof(TestCaseValuesDataSource))]
         public Genres ConvertToGenreEnum(object value)
         {
-            return (Genres)_enumTypConverter.Convert(value, typeof (Genres));
+            return (Genres)_enumTypeConverter.Convert(value, typeof(Genres));
         }
 
         public enum Genres
@@ -38,11 +35,11 @@ namespace DataTableMapper.Tests.TypeConversion
             Thriller
         }
 
-        class TestCaseMatchesDataSource : IEnumerable
+        private class TestCaseMatchesDataSource : IEnumerable
         {
-            static IEnumerable GetData()
+            private static IEnumerable GetData()
             {
-                yield return new TestCaseData(typeof (Genres)).Returns(true);
+                yield return new TestCaseData(typeof(Genres)).Returns(true);
                 yield return new TestCaseData(typeof(int)).Returns(false);
                 yield return new TestCaseData(typeof(object)).Returns(false);
                 yield return new TestCaseData(typeof(string)).Returns(false);
@@ -55,9 +52,9 @@ namespace DataTableMapper.Tests.TypeConversion
             }
         }
 
-        class TestCaseValuesDataSource : IEnumerable
+        private class TestCaseValuesDataSource : IEnumerable
         {
-            static IEnumerable GetData()
+            private static IEnumerable GetData()
             {
                 yield return new TestCaseData("Horror").Returns(Genres.Horror);
                 yield return new TestCaseData(0).Returns(Genres.Horror);
@@ -69,6 +66,5 @@ namespace DataTableMapper.Tests.TypeConversion
                 return GetData().GetEnumerator();
             }
         }
-
     }
 }

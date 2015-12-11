@@ -7,7 +7,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
     [TestFixture]
     public class DataTableMapToClassWithExtraPropertiesTests
     {
-
         [Test]
         public void MapToMyTestClass1()
         {
@@ -28,7 +27,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual("Padraic Duffy", c1.Name);
             Assert.AreEqual(0, c1.Height);
             Assert.AreEqual(new DateTime(1910, 01, 03), c1.DOB);
-
         }
 
         [Test]
@@ -56,9 +54,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual("Padraic Duffy", u.Name);
         }
 
-
-
-
         private System.Data.DataTable CreateTable()
         {
             var table = new System.Data.DataTable();
@@ -66,9 +61,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             table.Columns.Add("Id");
             table.Columns.Add("Name");
             table.Columns.Add("DOB");
-
-
-
 
             return table;
         }

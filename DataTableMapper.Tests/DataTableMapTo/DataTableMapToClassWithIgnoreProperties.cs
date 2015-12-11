@@ -1,10 +1,7 @@
 ﻿using DataTableMapper.Attributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace DataTableMapper.Tests.DataTableMapTo
 {
@@ -14,7 +11,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
     [TestFixture]
     public class DataTableMapToClassWithIgnoreProperties
     {
-
         [Test]
         public void IgnorePrimitive()
         {
@@ -57,8 +53,6 @@ namespace DataTableMapper.Tests.DataTableMapTo
             //Assert
             Assert.AreEqual(title, x.JobTitle);
             Assert.IsNull(x.Person);
-
-
         }
 
         [Test]
@@ -85,8 +79,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(description, p.Description);
         }
 
-
-        class SimplePersonIgnoreAge
+        private class SimplePersonIgnoreAge
         {
             public string Name { get; set; }
 
@@ -94,7 +87,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
             public int Age { get; set; }
         }
 
-        class Product
+        private class Product
         {
             public string Name { get; set; }
 
@@ -104,8 +97,7 @@ namespace DataTableMapper.Tests.DataTableMapTo
             public string Description { get; set; }
         }
 
-
-        class SimpleJobIgnorePerson
+        private class SimpleJobIgnorePerson
         {
             [ColumnMapping("Title")]
             public string JobTitle { get; set; }
@@ -113,6 +105,5 @@ namespace DataTableMapper.Tests.DataTableMapTo
             [IgnoreMapping]
             public SimplePersonIgnoreAge Person { get; set; }
         }
-
     }
 }
