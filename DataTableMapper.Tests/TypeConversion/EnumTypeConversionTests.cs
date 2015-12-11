@@ -8,24 +8,24 @@ namespace DataTableMapper.Tests.TypeConversion
     [TestFixture]
     public class EnumTypeConversionTests
     {
-        private ITypeConverter _enumTypConverter;
+        private ITypeConverter _enumTypeConverter;
 
         [SetUp]
         public void Setup()
         {
-            _enumTypConverter = new EnumTypeConverter();
+            _enumTypeConverter = new EnumTypeConverter();
         }
 
         [Test, TestCaseSource(typeof(TestCaseMatchesDataSource))]
         public bool OnlyMatchOnEnumTypes(Type type)
         {
-            return _enumTypConverter.IsMatch(typeof(object), type);
+            return _enumTypeConverter.IsMatch(typeof(object), type);
         }
 
         [Test, TestCaseSource(typeof(TestCaseValuesDataSource))]
         public Genres ConvertToGenreEnum(object value)
         {
-            return (Genres)_enumTypConverter.Convert(value, typeof(Genres));
+            return (Genres)_enumTypeConverter.Convert(value, typeof(Genres));
         }
 
         public enum Genres

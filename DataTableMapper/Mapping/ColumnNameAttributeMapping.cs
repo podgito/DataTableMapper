@@ -33,8 +33,6 @@ namespace DataTableMapper.Mapping
             {
                 throw new ArgumentException("Property must be a simple type");
             }
-
-            throw new NotImplementedException();
         }
     }
 }

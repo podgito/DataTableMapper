@@ -51,7 +51,7 @@
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
     <Compile Include="Attributes\IgnoreMappingAttribute.cs" />
     <Compile Include="Attributes\PropertyMappingAttribute.cs" />
-    <Compile Include="Attributes\ValueConversionAttributes\BoolValueConversionAttribute.cs" />
+    <Compile Include="Attributes\BoolValueConversionAttribute.cs" />
     <Compile Include="DataTable\DataTableExtensions.cs" />
     <Compile Include="Mapping\ComplexTypePropertyMapping.cs" />
     <Compile Include="Mapping\IgnorePropertyMapping.cs" />

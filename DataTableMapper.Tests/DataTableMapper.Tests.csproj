@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\BoolValueConversionAttributeTest.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassRequiringValueConversions.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassUsingColumnMappingAttribute.cs" />
     <Compile Include="DataTableMapTo\DataTableMapToClassWithAttributeAliases.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DataTableMapTo\DataTableMapToTests.cs" />
     <Compile Include="DataTableMapTo\DataTablePrimitiveMappingsTests.cs" />
     <Compile Include="Extensions\DataRowExtensionsTests.cs" />
+    <Compile Include="Mapping\ComplexTypePropertyMappingTests.cs" />
     <Compile Include="Mapping\IgnorePropertyMappingTests.cs" />
     <Compile Include="Mapping\PropertyMappingFactoryTests.cs" />
     <Compile Include="Mapping\TypeHelperTests.cs" />
