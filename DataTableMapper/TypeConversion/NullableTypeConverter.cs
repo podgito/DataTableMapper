@@ -3,6 +3,9 @@ using System;
 
 namespace DataTableMapper.TypeConversion
 {
+    /// <summary>
+    /// Convert a value to a nullable type
+    /// </summary>
     internal class NullableTypeConverter : ITypeConverter
     {
         public object Convert(object value, Type toType)

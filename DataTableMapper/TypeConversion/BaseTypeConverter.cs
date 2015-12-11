@@ -2,6 +2,9 @@
 
 namespace DataTableMapper.TypeConversion
 {
+    /// <summary>
+    /// Basic type conversion
+    /// </summary>
     internal class BaseTypeConverter : ITypeConverter
     {
         public object Convert(object value, Type toType)

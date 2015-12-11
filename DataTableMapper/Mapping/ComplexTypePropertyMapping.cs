@@ -23,7 +23,7 @@ namespace DataTableMapper.Mapping
 
                 property.SetValue(obj, Convert.ChangeType(complexPropertyInstance, property.PropertyType), null);
             }
-            catch (ArgumentException) { } //Catch exceptions where in input does not meet the generic constraint (parameterless constructor)
+            catch (ArgumentException) { } //Catch exceptions where input does not meet the generic constraint (parameterless constructor)
         }
     }
 }

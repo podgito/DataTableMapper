@@ -2,6 +2,9 @@
 
 namespace DataTableMapper.TypeConversion
 {
+    /// <summary>
+    /// Converts values to enum
+    /// </summary>
     internal class EnumTypeConverter : ITypeConverter
     {
         public object Convert(object value, Type toType)
