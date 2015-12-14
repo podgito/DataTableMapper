@@ -14,7 +14,7 @@ The extension method interface is as follows
 
 and call the extension method
 
-	IEnumberable<MyClass> x = table.MapTo<MyClass>();
+	IEnumerable<MyClass> x = table.MapTo<MyClass>();
 	
 #Mapping
 
