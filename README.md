@@ -1,4 +1,5 @@
-# DataTableMapper
+# DataTableMapper [![NuGet Version](https://img.shields.io/badge/nuget-v1.1.1-green.svg)](https://www.nuget.org/packages/DataTableMapper/)
+
 Map a DataTable to a class instance via `MapTo<T>()` extension method. The table's columns will automatically map to the class' properties by name. There are some Attributes available for mapping to a column with a different name and for default values as well as converting one value to another before setting the property. 
 
 #Nuget
