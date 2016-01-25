@@ -23,7 +23,7 @@ The `MapTo` method attempts to find a value for each property of the class in th
 
 1. ColumnMappingAttributes - Map the property to a column with another name (NOT case sensitive)
 2. Property Name - Search for columns with the property's name (NOT case sensitive)
-3. DefaultValueAttributes - Provide default value in the case where both steps above were able to get a value for the property
+3. DefaultValueAttributes - Set a default value in the case where both steps above were not able to get a value for the property
 
 ##Column Mapping
 
