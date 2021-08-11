@@ -1,81 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6FAC2AB7-587B-4EAA-84A1-1062005E4259}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataTableMapper</RootNamespace>
-    <AssemblyName>DataTableMapper</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\DataTableMapper.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\DataTableMapper.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Attributes\ColumnMappingAttribute.cs" />
-    <Compile Include="Attributes\Core\ColumnMappingAttributeBase.cs" />
-    <Compile Include="Attributes\Core\DataMapperAttribute.cs" />
-    <Compile Include="Attributes\DefaultValueAttribute.cs" />
-    <Compile Include="Attributes\IgnoreMappingAttribute.cs" />
-    <Compile Include="Attributes\PropertyMappingAttribute.cs" />
-    <Compile Include="Attributes\BoolValueConversionAttribute.cs" />
-    <Compile Include="DataTable\DataTableExtensions.cs" />
-    <Compile Include="Mapping\ComplexTypePropertyMapping.cs" />
-    <Compile Include="Mapping\IgnorePropertyMapping.cs" />
-    <Compile Include="Mapping\IPropertyMapping.cs" />
-    <Compile Include="Mapping\SimpleTypePropertyMapping.cs" />
-    <Compile Include="Extensions\DataRowExtensions.cs" />
-    <Compile Include="Mapping\ColumnNameAttributeMapping.cs" />
-    <Compile Include="Mapping\DefaultValueAttributeMapping.cs" />
-    <Compile Include="Mapping\IMapping.cs" />
-    <Compile Include="Mapping\PropertyMappingFactory.cs" />
-    <Compile Include="Mapping\PropertyNameMapping.cs" />
-    <Compile Include="Mapping\TypeHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeConversion\BaseTypeConverter.cs" />
-    <Compile Include="TypeConversion\EnumTypeConverter.cs" />
-    <Compile Include="TypeConversion\ITypeConverter.cs" />
-    <Compile Include="TypeConversion\NullableTypeConverter.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
