@@ -3,10 +3,16 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>DataTableMapper</PackageId>
+    <Version>2.0.0</Version>
+    <Authors>Padraic Duffy</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>spreadsheet6%20(2).png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <None Include="Misc\spreadsheet6%20(2).png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
