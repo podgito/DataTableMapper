@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags: [ 'v*.*.*' ]
+
+permissions:
+  contents: write   # required to create the GitHub Release
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: nuget       # add a protection rule in repo settings to gate pushes
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Verify tag matches project version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PROJ=$(dotnet msbuild DataTableMapper/DataTableMapper.csproj \
+                   -getProperty:Version -p:TargetFramework=net10.0 | tr -d '[:space:]')
+          echo "tag=$TAG project=$PROJ"
+          if [ "$TAG" != "$PROJ" ]; then
+            echo "::error::Tag '$TAG' does not match <Version> '$PROJ' in Directory.Build.props"
+            exit 1
+          fi
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Test
+        run: dotnet test -c Release --no-build
+
+      - name: Pack
+        run: dotnet pack DataTableMapper/DataTableMapper.csproj -c Release --no-build -o artifacts
+
+      - name: Push to NuGet.org
+        run: >
+          dotnet nuget push "artifacts/*.nupkg"
+          --api-key "${{ secrets.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg
+          generate_release_notes: true
