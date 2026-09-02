@@ -1,11 +1,28 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTableMapper", "DataTableMapper\DataTableMapper.csproj", "{6FAC2AB7-587B-4EAA-84A1-1062005E4259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTableMapper", "DataTableMapper\DataTableMapper.csproj", "{6FAC2AB7-587B-4EAA-84A1-1062005E4259}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTableMapper.Tests", "DataTableMapper.Tests\DataTableMapper.Tests.csproj", "{7A6B93A6-A541-4049-B731-EE1E22DB72FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTableMapper.Tests", "DataTableMapper.Tests\DataTableMapper.Tests.csproj", "{7A6B93A6-A541-4049-B731-EE1E22DB72FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D7A2E9C-4A3B-4B7E-9C1F-2B6E0D5A8F31}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		README.md = README.md
+		LICENSE.md = LICENSE.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{3F8C1B2D-6E5A-4D9C-8B0F-7A4E2C1D9B63}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
