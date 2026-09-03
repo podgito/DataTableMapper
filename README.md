@@ -109,7 +109,7 @@ dotnet pack  DataTableMapper/DataTableMapper.csproj -c Release -o artifacts
 ## Releasing
 
 1. Bump `<VersionPrefix>` in `Directory.Build.props`.
-2. Commit, then tag: `git tag v2.0.0 && git push --follow-tags`.
+2. Commit, then tag: `git tag v1.2.0 && git push --follow-tags`.
 3. The `Release` workflow verifies the tag matches the project version, packs, and pushes to
    NuGet.org. It requires a `NUGET_API_KEY` repository secret and a `nuget` environment.
 

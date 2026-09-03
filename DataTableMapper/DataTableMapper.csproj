@@ -17,7 +17,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>2.0.0 - Multi-targets netstandard2.0 and net10.0. No public API changes.</PackageReleaseNotes>
+    <PackageReleaseNotes>1.2.0 - Multi-targets netstandard2.0 and net10.0. No public API changes.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
