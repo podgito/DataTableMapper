@@ -1,75 +1,120 @@
-# DataTableMapper [![NuGet version](https://badge.fury.io/nu/DataTableMapper.svg)](https://badge.fury.io/nu/DataTableMapper)
+# DataTableMapper
 
-Map a DataTable to a class instance via `MapTo<T>()` extension method. The table's columns will automatically map to the class' properties by name. There are some Attributes available for mapping to a column with a different name and for default values as well as converting one value to another before setting the property. 
+[![CI](https://github.com/podgito/DataTableMapper/actions/workflows/ci.yml/badge.svg)](https://github.com/podgito/DataTableMapper/actions/workflows/ci.yml)
+[![NuGet](https://img.shields.io/nuget/v/DataTableMapper.svg)](https://www.nuget.org/packages/DataTableMapper/)
 
-#Nuget
+Map a `DataTable` to a class instance via the `MapTo<T>()` extension method. The table's columns
+automatically map to the class' properties by name. Attributes are available for mapping to a
+column with a different name, for default values, and for converting one value to another before
+setting the property.
 
-	Install-Package DataTableMapper
+Targets `netstandard2.0` (.NET Framework 4.6.1+, .NET Core 2.0+) and `net10.0`.
 
-# Usage
+## Install
 
-The extension method interface is as follows
+```
+dotnet add package DataTableMapper
+```
 
-	public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
+## Usage
 
+The extension method signature is:
 
-and call the extension method
+```csharp
+public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table) where T : new()
+```
 
-	IEnumerable<MyClass> x = table.MapTo<MyClass>();
-	
-#Mapping
+Call it:
 
-The `MapTo` method attempts to find a value for each property of the class in the following steps in order:
+```csharp
+IEnumerable<MyClass> x = table.MapTo<MyClass>();
+```
 
-1. ColumnMappingAttributes - Map the property to a column with another name (NOT case sensitive)
-2. Property Name - Search for columns with the property's name (NOT case sensitive)
-3. DefaultValueAttributes - Set a default value in the case where both steps above were not able to get a value for the property
+## Mapping
 
-##Column Mapping
+`MapTo` attempts to find a value for each property of the class in the following order:
 
-By default the `MapTo` function will attempt to map a property to the table's column with the same name.
+1. **ColumnMappingAttribute** — map the property to a column with another name (not case sensitive)
+2. **Property name** — search for a column with the property's name (not case sensitive)
+3. **DefaultValueAttribute** — set a default value when steps 1 and 2 could not produce one
 
-Decorate properties with the `ColumnMappingAttribute` to map a property to a column with another name. The `MapTo` function will still fall back to property-name mapping if no match is found. e.g. The `MapTo` function will look for a column named "Id" to set the following property named "MyClassId"
+### Column mapping
 
-	public class MyClass
-	{
-		[ColumnMapping("Id")]
-		public int MyClassId { get; set; }
-	}	
-	
-The `ColumnMappingAttribute` class can be inherited for custom functionality.
-		
-##Default Values
+By default `MapTo` maps a property to the table's column with the same name.
 
-Decorate a property with the `DefaultValueAttribute` to assign a value to the property in the case where no mapping can be done OR the mapping yields a `DBNull`.	
+Decorate a property with `ColumnMappingAttribute` to map it to a column with another name. `MapTo`
+still falls back to property-name mapping if no match is found. For example, `MapTo` will look for
+a column named `Id` for the property below:
 
-		class Person
-        {
-            [DefaultValue(99)]
-            public int Id { get; set; }
+```csharp
+public class MyClass
+{
+    [ColumnMapping("Id")]
+    public int MyClassId { get; set; }
+}
+```
 
-            [DefaultValue("Johnny")]
-            public string Name { get; set; }
+`ColumnMappingAttribute` can be inherited for custom functionality.
 
-            [DefaultValue(true)]
-            public bool IsGreat { get; set; }
-        }
+### Default values
 
-#Conversion
+Decorate a property with `DefaultValueAttribute` to assign a value when no mapping can be done, or
+when the mapping yields a `DBNull`:
 
-For columns returning a different type to the property type. The `BoolValueConversionAttribute` comes with the library for converting columns returning `Integer` and converts it to a `Boolean` with C-like rules.
+```csharp
+class Person
+{
+    [DefaultValue(99)]
+    public int Id { get; set; }
 
-		class MyClass
-        {
-            //Looks for column named "val" and if the value for that row is > 0 then the property will be set to true, else false
-            [BoolValueConversion]
-            public bool Val { get; set; } 
-        }
+    [DefaultValue("Johnny")]
+    public string Name { get; set; }
 
-#Extensibility
+    [DefaultValue(true)]
+    public bool IsGreat { get; set; }
+}
+```
 
-For your own custom conversion (e.g. Decryption) create an Attribute implementing the `IValueConversion` interface. 
+## Conversion
 
-N.B. Also inherit the `ColumnMappingAttribute` class to have column mapping with the attribute.
+For columns returning a different type to the property type, `BoolValueConversionAttribute` (shipped
+with the library) converts a column returning an integer to a boolean with C-like rules:
 
+```csharp
+class MyClass
+{
+    // Looks for a column named "val"; if the row value is > 0 the property is set to true, else false
+    [BoolValueConversion]
+    public bool Val { get; set; }
+}
+```
 
+## Extensibility
+
+For a custom conversion (e.g. decryption), create an attribute implementing the `IValueConversion`
+interface.
+
+> Also inherit `ColumnMappingAttribute` to get column mapping with the attribute.
+
+## Building
+
+Requires the [.NET SDK 10](https://dotnet.microsoft.com/download) (see `global.json`).
+
+```
+dotnet build -c Release
+dotnet test  -c Release
+dotnet pack  DataTableMapper/DataTableMapper.csproj -c Release -o artifacts
+```
+
+## Releasing
+
+1. Bump `<VersionPrefix>` in `Directory.Build.props`.
+2. Commit, then tag: `git tag v1.2.0 && git push --follow-tags`.
+3. The `Release` workflow verifies the tag matches the project version, packs, and pushes to
+   NuGet.org via [Trusted Publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
+   (OIDC, no stored API key). It needs a `nuget-release` GitHub environment and a matching
+   Trusted Publishing policy on nuget.org (see `.github/workflows/release.yml`).
+
+## Licence
+
+[MIT](LICENSE.md)
