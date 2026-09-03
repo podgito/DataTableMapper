@@ -5,16 +5,20 @@ on:
     tags: [ 'v*.*.*' ]
 
 permissions:
-  contents: write   # required to create the GitHub Release
+  contents: write   # create the GitHub Release
+  id-token: write   # request the GitHub OIDC token for NuGet Trusted Publishing
 
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # nuget.org account that owns the package and the Trusted Publishing policy.
+  # This is public information (it is your package owner name), not a secret.
+  NUGET_USER: podgito
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    environment: nuget       # add a protection rule in repo settings to gate pushes
+    environment: nuget-release   # must match the Environment field on the nuget.org Trusted Publishing policy
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,10 +54,16 @@ jobs:
       - name: Pack
         run: dotnet pack DataTableMapper/DataTableMapper.csproj -c Release --no-build -o artifacts
 
+      - name: NuGet login (OIDC -> short-lived API key)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ env.NUGET_USER }}
+
       - name: Push to NuGet.org
         run: >
           dotnet nuget push "artifacts/*.nupkg"
-          --api-key "${{ secrets.NUGET_API_KEY }}"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
           --source https://api.nuget.org/v3/index.json
           --skip-duplicate
 
