@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: nuget-release   # must match the Environment field on the nuget.org Trusted Publishing policy
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
