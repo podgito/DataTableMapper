@@ -31,7 +31,6 @@ namespace DataTableMapper.Tests.Attributes
         }
 
         [Test]
-        [Ignore("What should be the result of this test?")]
         [TestCase(-1)]
         [TestCase(-99)]
         public void Convert_Returns_True_For_Numbers_Less_Than_Zero(int number)
@@ -40,15 +39,16 @@ namespace DataTableMapper.Tests.Attributes
         }
 
         [Test]
-        public void Convert_Returns_False_For_Null()
+        public void Convert_Returns_Null_For_Null()
         {
-            _boolAttribute.Convert(null).ShouldBe(false);
+            //null in -> null out, so a [DefaultValue] (or the type default) can still apply downstream
+            _boolAttribute.Convert(null).ShouldBe(null);
         }
 
         [Test]
-        public void Convert_Returns_False_For_DBNull()
+        public void Convert_Returns_Null_For_DBNull()
         {
-            _boolAttribute.Convert(DBNull.Value).ShouldBe(false);
+            _boolAttribute.Convert(DBNull.Value).ShouldBe(null);
         }
     }
 }

@@ -52,6 +52,19 @@ namespace DataTableMapper.Tests.DataTableMapTo
         //{
         //}
 
+        [Test]
+        public void DefaultValueAppliesWhenBoolValueConversionHasNoValueToConvert()
+        {
+            var table = new DataTable();
+            table.Columns.Add("IsActive");
+            table.Rows.Add(DBNull.Value);
+
+            //Act
+            var thing = table.MapTo<ThingWithConvertedBool>().First();
+
+            Assert.AreEqual(true, thing.IsActive);
+        }
+
         private class Person
         {
             [DefaultValue(99)]
@@ -62,6 +75,13 @@ namespace DataTableMapper.Tests.DataTableMapTo
 
             [DefaultValue(true)]
             public bool IsGreat { get; set; }
+        }
+
+        private class ThingWithConvertedBool
+        {
+            [DefaultValue(true)]
+            [BoolValueConversion]
+            public bool IsActive { get; set; }
         }
     }
 }
