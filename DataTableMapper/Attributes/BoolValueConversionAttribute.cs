@@ -22,15 +22,17 @@ namespace DataTableMapper.Attributes
         /// <returns></returns>
         public object Convert(object o)
         {
-            if (o != null)
+            if (o == null || o == DBNull.Value)
             {
-                var intValue = IntegerValue(o);
-
-                var toBoolValue = ToBool(o);
-
-                return toBoolValue || intValue > 0;
+                //No value to convert. Returning null lets a [DefaultValue] (or the type default) apply.
+                return null;
             }
-            else return false;
+
+            var intValue = IntegerValue(o);
+
+            var toBoolValue = ToBool(o);
+
+            return toBoolValue || intValue != 0;
         }
 
         private static bool ToBool(object o)

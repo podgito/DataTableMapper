@@ -78,12 +78,13 @@ class Person
 ## Conversion
 
 For columns returning a different type to the property type, `BoolValueConversionAttribute` (shipped
-with the library) converts a column returning an integer to a boolean with C-like rules:
+with the library) converts a column returning an integer to a boolean with C-like rules — zero is
+`false`, any non-zero value is `true`:
 
 ```csharp
 class MyClass
 {
-    // Looks for a column named "val"; if the row value is > 0 the property is set to true, else false
+    // Looks for a column named "val"; if the row value is non-zero the property is set to true, else false
     [BoolValueConversion]
     public bool Val { get; set; }
 }

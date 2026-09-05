@@ -1,5 +1,6 @@
 ﻿using DataTableMapper.Attributes;
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Data;
 using System.Linq;
@@ -27,6 +28,47 @@ namespace DataTableMapper.Tests.DataTableMapTo
             var person = table.MapTo<Person>().Single();
 
             return person.Gender;
+        }
+
+        [Test]
+        public void NullableEnumFromInt()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Gender", typeof(int));
+            table.Rows.Add(2);
+
+            var person = table.MapTo<NullablePerson>().Single();
+
+            Assert.AreEqual(Gender.Female, person.Gender);
+        }
+
+        [Test]
+        public void NullableEnumFromString()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Gender", typeof(string));
+            table.Rows.Add("Female");
+
+            var person = table.MapTo<NullablePerson>().Single();
+
+            Assert.AreEqual(Gender.Female, person.Gender);
+        }
+
+        [Test]
+        public void NullableEnumFromDBNullIsNull()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Gender", typeof(int));
+            table.Rows.Add(DBNull.Value);
+
+            var person = table.MapTo<NullablePerson>().Single();
+
+            Assert.IsNull(person.Gender);
+        }
+
+        private class NullablePerson
+        {
+            public Gender? Gender { get; set; }
         }
 
         private class TestDataSource : IEnumerable

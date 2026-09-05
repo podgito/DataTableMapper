@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Globalization;
 
 namespace DataTableMapper.TypeConversion
 {
@@ -9,7 +10,8 @@ namespace DataTableMapper.TypeConversion
     {
         public object Convert(object value, Type toType)
         {
-            return System.Convert.ChangeType(value, toType);
+            //Invariant culture: the data is database-sourced, so parsing must not depend on the host locale.
+            return System.Convert.ChangeType(value, toType, CultureInfo.InvariantCulture);
         }
 
         public bool IsMatch(Type fromType, Type toType)
