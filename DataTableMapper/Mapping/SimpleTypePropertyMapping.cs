@@ -10,7 +10,6 @@ namespace DataTableMapper.Mapping
     internal class SimpleTypePropertyMapping : IPropertyMapping
     {
         private static IEnumerable<IMapping> _mappings = new List<IMapping>() { new ColumnNameAttributeMapping(), new PropertyNameMapping() };
-        private static IEnumerable<ITypeConverter> _typeConverters = new List<ITypeConverter> { new EnumTypeConverter(), new NullableTypeConverter(), new BaseTypeConverter() };
         private static DefaultValueAttributeMapping _defaultMapping = new DefaultValueAttributeMapping();
 
         public bool IsMatch(PropertyInfo property)
@@ -62,8 +61,7 @@ namespace DataTableMapper.Mapping
         {
             if (value != null)
             {
-                var converter = _typeConverters.First(x => x.IsMatch(value.GetType(), property.PropertyType));
-                property.SetValue(obj, converter.Convert(value, property.PropertyType), null);
+                property.SetValue(obj, TypeConverterRegistry.Convert(value, property.PropertyType), null);
             }
         }
     }

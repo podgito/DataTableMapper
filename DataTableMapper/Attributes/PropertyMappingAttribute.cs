@@ -19,10 +19,11 @@ namespace DataTableMapper.Attributes
         }
 
         /// <summary>
-        /// The default convert just returns the input
+        /// The default convert just returns the input.
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
+        [Obsolete("Overriding Convert has no effect - the mapper only calls converters that implement IValueConversion. Implement IValueConversion instead (see the README).")]
         public virtual object Convert(object o)
         {
             return o;

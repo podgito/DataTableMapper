@@ -13,6 +13,9 @@ namespace DataTableMapper
     {
         private static PropertyMappingFactory _factory = new PropertyMappingFactory();
 
+        [ThreadStatic]
+        private static HashSet<Type> _typesBeingMapped;
+
         /// <summary>
         /// Maps DataTable to type T's properties for each row in table
         /// </summary>
@@ -34,17 +37,36 @@ namespace DataTableMapper
 
         private static T Map<T>(DataRow row) where T : new()
         {
-            var x = new T();
+            if (_typesBeingMapped == null) _typesBeingMapped = new HashSet<Type>();
+            _typesBeingMapped.Add(typeof(T));
 
-            var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
-
-            foreach (var property in properties)
+            try
             {
-                var mapping = _factory.Create(property);
-                mapping.PerformMapping<T>(x, property, row);
-            }
+                var x = new T();
 
-            return x;
+                var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
+
+                foreach (var property in properties)
+                {
+                    var mapping = _factory.Create(property);
+                    mapping.PerformMapping<T>(x, property, row);
+                }
+
+                return x;
+            }
+            finally
+            {
+                _typesBeingMapped.Remove(typeof(T));
+            }
+        }
+
+        /// <summary>
+        /// True while a value of <paramref name="type"/> is already being mapped further up the
+        /// current call stack. Used to break reference cycles in the object graph.
+        /// </summary>
+        internal static bool IsTypeBeingMapped(Type type)
+        {
+            return _typesBeingMapped != null && _typesBeingMapped.Contains(type);
         }
 
         /// <summary>

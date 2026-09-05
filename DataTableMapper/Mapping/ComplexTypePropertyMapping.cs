@@ -13,6 +13,13 @@ namespace DataTableMapper.Mapping
 
         public void PerformMapping<T>(T obj, PropertyInfo property, DataRow row)
         {
+            if (DataTableExtensions.IsTypeBeingMapped(property.PropertyType))
+            {
+                //A value of this type is already being mapped higher up the graph - mapping it again
+                //from the same row would recurse forever. Leave the property unset.
+                return;
+            }
+
             try
             {
                 MethodInfo method =

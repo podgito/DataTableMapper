@@ -14,6 +14,9 @@ namespace DataTableMapper.Mapping
                 || type == typeof(Decimal)
                 || type == typeof(String)
                 || type == typeof(DateTime)
+                || type == typeof(Guid)
+                || type == typeof(TimeSpan)
+                || type == typeof(DateTimeOffset)
                 || IsNullable(type)
                 || type.IsEnum;
         }
