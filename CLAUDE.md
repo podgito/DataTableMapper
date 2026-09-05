@@ -68,7 +68,8 @@ releases are what consumers get.
 
 ## Known gaps (not yet fixed — each its own change)
 
-- `byte[]` properties are silently dropped (`IgnorePropertyMapping` matches any `IEnumerable`).
 - Custom `struct` properties lose writes (`Map<T>` operates on a boxed copy).
 - `IValueConversion` is ignored on complex-typed properties.
 - `Enum.Parse` is case-sensitive (`"Horror"` works, `"horror"` throws).
+- `char[]` / other-element arrays are still treated as child collections and skipped
+  (`byte[]` was special-cased in 1.4.0; other element types are not, and rarely occur as columns).
