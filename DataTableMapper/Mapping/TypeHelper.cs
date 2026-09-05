@@ -17,6 +17,7 @@ namespace DataTableMapper.Mapping
                 || type == typeof(Guid)
                 || type == typeof(TimeSpan)
                 || type == typeof(DateTimeOffset)
+                || type == typeof(byte[])
                 || IsNullable(type)
                 || type.IsEnum;
         }
@@ -32,7 +33,9 @@ namespace DataTableMapper.Mapping
 
         public static bool IsEnumerable(Type type)
         {
+            //string and byte[] implement IEnumerable but are scalar values, not child collections.
             if (type == typeof(String)) return false;
+            if (type == typeof(byte[])) return false;
 
             return type.GetInterfaces().Contains(typeof(System.Collections.IEnumerable));
         }
