@@ -17,7 +17,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>1.3.0 - Type-conversion correctness fixes. Guid/TimeSpan/DateTimeOffset properties now map (were silently left empty); nullable enums map from strings; string-to-number/date parsing is now invariant-culture; [DefaultValue] applies alongside [BoolValueConversion]; cyclic object graphs no longer overflow the stack; BoolValueConversion treats any non-zero number as true. See the v1.3.0 release notes for behaviour-change details.</PackageReleaseNotes>
+    <PackageReleaseNotes>1.4.0 - byte[] properties now map (were silently left null); this is the type ADO.NET uses for varbinary and rowversion/timestamp columns. 1.3.0 - Type-conversion correctness fixes: Guid/TimeSpan/DateTimeOffset properties now map (were silently left empty); nullable enums map from strings; string-to-number/date parsing is now invariant-culture; [DefaultValue] applies alongside [BoolValueConversion]; cyclic object graphs no longer overflow the stack; BoolValueConversion treats any non-zero number as true.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

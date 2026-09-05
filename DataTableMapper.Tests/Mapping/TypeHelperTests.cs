@@ -36,9 +36,16 @@ namespace DataTableMapper.Tests.Mapping
         [Test]
         [TestCase(typeof(string))]
         [TestCase(typeof(int))]
+        [TestCase(typeof(byte[]))]
         public void NonEnumerableTypesTest(Type type)
         {
             TypeHelper.IsEnumerable(type).ShouldBeFalse();
+        }
+
+        [Test]
+        public void ByteArrayIsSimpleType()
+        {
+            TypeHelper.IsSimpleType(typeof(byte[])).ShouldBeTrue();
         }
 
         [Test]
