@@ -55,13 +55,16 @@ jobs:
           dotnet test -c Release --no-build
           --logger "trx;LogFileName=test-results.trx"
           --results-directory ${{ github.workspace }}/test-results
+          --collect:"XPlat Code Coverage"
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: test-results-${{ matrix.os }}
-          path: test-results/**/*.trx
+          path: |
+            test-results/**/*.trx
+            test-results/**/coverage.cobertura.xml
           if-no-files-found: error
 
   pack:

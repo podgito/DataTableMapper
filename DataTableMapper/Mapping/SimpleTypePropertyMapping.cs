@@ -1,8 +1,6 @@
-﻿using DataTableMapper.Attributes;
-using DataTableMapper.TypeConversion;
+﻿using DataTableMapper.TypeConversion;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Reflection;
 
 namespace DataTableMapper.Mapping
@@ -17,7 +15,7 @@ namespace DataTableMapper.Mapping
             return TypeHelper.IsSimpleType(property.PropertyType);
         }
 
-        public void PerformMapping<T>(T obj, PropertyInfo property, DataRow row)
+        public void PerformMapping(object obj, PropertyInfo property, DataRow row)
         {
             object mappedValue = null;
             // 1) Mapping
@@ -43,12 +41,8 @@ namespace DataTableMapper.Mapping
 
         private static object AttributeConversion(PropertyInfo property, object value)
         {
-            if (property.GetCustomAttributes(typeof(IValueConversion), true).Any())
-            {
-                var converter = (IValueConversion)property.GetCustomAttributes(typeof(IValueConversion), true).First();
-                return converter.Convert(value);
-            }
-            else return value;
+            var converter = ValueConversionHelper.Find(property);
+            return converter != null ? converter.Convert(value) : value;
         }
 
         /// <summary>

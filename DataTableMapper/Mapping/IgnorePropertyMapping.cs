@@ -1,6 +1,5 @@
 ﻿using DataTableMapper.Attributes;
 using System.Data;
-using System.Linq;
 using System.Reflection;
 
 namespace DataTableMapper.Mapping
@@ -9,10 +8,10 @@ namespace DataTableMapper.Mapping
     {
         public bool IsMatch(PropertyInfo property)
         {
-            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Any() || TypeHelper.IsEnumerable(property.PropertyType);
+            return property.GetCustomAttributes(typeof(IgnoreMappingAttribute), true).Length > 0 || TypeHelper.IsEnumerable(property.PropertyType);
         }
 
-        public void PerformMapping<T>(T obj, PropertyInfo property, DataRow row)
+        public void PerformMapping(object obj, PropertyInfo property, DataRow row)
         {
             //Do nothing - we're ignoring mapping!
         }

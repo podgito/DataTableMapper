@@ -47,10 +47,36 @@ namespace DataTableMapper.Tests.DataTableMapTo
             Assert.AreEqual(true, person.IsGreat);
         }
 
-        //[Test]
-        //public void PropertiesSetToDefaultValuesUsingColumnMappings()
-        //{
-        //}
+        [Test]
+        public void DefaultValueAppliesWhenTheAliasedColumnIsDBNull()
+        {
+            var table = new DataTable();
+            table.Columns.Add("person_name");
+            table.Rows.Add(DBNull.Value);
+
+            var person = table.MapTo<AliasedPerson>().First();
+
+            Assert.AreEqual("Johnny", person.Name);
+        }
+
+        [Test]
+        public void AliasedColumnValueWinsOverTheDefault()
+        {
+            var table = new DataTable();
+            table.Columns.Add("person_name");
+            table.Rows.Add("Real Name");
+
+            var person = table.MapTo<AliasedPerson>().First();
+
+            Assert.AreEqual("Real Name", person.Name);
+        }
+
+        private class AliasedPerson
+        {
+            [PropertyMapping("person_name")]
+            [DefaultValue("Johnny")]
+            public string Name { get; set; }
+        }
 
         [Test]
         public void DefaultValueAppliesWhenBoolValueConversionHasNoValueToConvert()

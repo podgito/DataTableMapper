@@ -1,7 +1,6 @@
 ﻿using DataTableMapper.Attributes;
 using DataTableMapper.Extensions;
 using System;
-using System.Linq;
 
 namespace DataTableMapper.Mapping
 {
@@ -11,9 +10,10 @@ namespace DataTableMapper.Mapping
         {
             if (TypeHelper.IsSimpleType(property.PropertyType))
             {
-                if (property.GetCustomAttributes(typeof(ColumnMappingAttribute), true).Any())
+                var attributes = property.GetCustomAttributes(typeof(ColumnMappingAttribute), true);
+                if (attributes.Length > 0)
                 {
-                    var mappingAttribute = (ColumnMappingAttribute)property.GetCustomAttributes(typeof(ColumnMappingAttribute), true).First(); //Ordering may be redundant if we linit to only 1 ColumnMappingAttribute per property
+                    var mappingAttribute = (ColumnMappingAttribute)attributes[0]; //Only one ColumnMappingAttribute per property is supported
 
                     foreach (var alias in mappingAttribute.Aliases)
                     {

@@ -17,8 +17,8 @@ namespace DataTableMapper.Mapping
                 || type == typeof(Guid)
                 || type == typeof(TimeSpan)
                 || type == typeof(DateTimeOffset)
-                || type == typeof(byte[])
-                || IsNullable(type)
+                || (type.IsArray && IsSimpleType(type.GetElementType()))
+                || (IsNullable(type) && IsSimpleType(Nullable.GetUnderlyingType(type)))
                 || type.IsEnum;
         }
 
@@ -33,9 +33,9 @@ namespace DataTableMapper.Mapping
 
         public static bool IsEnumerable(Type type)
         {
-            //string and byte[] implement IEnumerable but are scalar values, not child collections.
-            if (type == typeof(String)) return false;
-            if (type == typeof(byte[])) return false;
+            //Anything we treat as a scalar (string, byte[], char[], and other simple-element
+            //arrays) implements IEnumerable but is a value to set, not a child collection to skip.
+            if (IsSimpleType(type)) return false;
 
             return type.GetInterfaces().Contains(typeof(System.Collections.IEnumerable));
         }
