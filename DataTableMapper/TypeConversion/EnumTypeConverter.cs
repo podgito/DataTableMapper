@@ -9,7 +9,8 @@ namespace DataTableMapper.TypeConversion
     {
         public object Convert(object value, Type toType)
         {
-            if (value is string) return Enum.Parse(toType, (string)value);
+            //Case-insensitive: a database column holding "horror" should bind the same as "Horror".
+            if (value is string) return Enum.Parse(toType, (string)value, ignoreCase: true);
             else return Enum.ToObject(toType, value);
         }
 

@@ -17,9 +17,13 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>1.4.0 - byte[] properties now map (were silently left null); this is the type ADO.NET uses for varbinary and rowversion/timestamp columns. 1.3.0 - Type-conversion correctness fixes: Guid/TimeSpan/DateTimeOffset properties now map (were silently left empty); nullable enums map from strings; string-to-number/date parsing is now invariant-culture; [DefaultValue] applies alongside [BoolValueConversion]; cyclic object graphs no longer overflow the stack; BoolValueConversion treats any non-zero number as true.</PackageReleaseNotes>
+    <PackageReleaseNotes>1.5.0 - Correctness fixes for the four remaining silent-wrong-answer cases: custom struct properties are now populated (writes were landing on a discarded box); Nullable&lt;TStruct&gt; properties map instead of throwing; IValueConversion attributes are now honoured on complex-typed properties, not just simple ones; Enum values parse case-insensitively from strings ("horror" == "Horror"); char[] and other simple-element array columns map instead of being skipped as child collections. 1.4.0 - byte[] properties now map (were silently left null); this is the type ADO.NET uses for varbinary and rowversion/timestamp columns. 1.3.0 - Type-conversion correctness fixes: Guid/TimeSpan/DateTimeOffset properties now map (were silently left empty); nullable enums map from strings; string-to-number/date parsing is now invariant-culture; [DefaultValue] applies alongside [BoolValueConversion]; cyclic object graphs no longer overflow the stack; BoolValueConversion treats any non-zero number as true.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <!-- Catch an accidental binary-breaking change against the last published package. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageValidationBaselineVersion>1.4.0</PackageValidationBaselineVersion>
   </PropertyGroup>
 
   <ItemGroup>

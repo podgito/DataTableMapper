@@ -27,7 +27,7 @@ namespace DataTableMapper.Tests.Mapping
         [Test]
         [TestCase(typeof(IEnumerable<string>))]
         [TestCase(typeof(List<int>))]
-        [TestCase(typeof(double[]))]
+        [TestCase(typeof(TypeHelperTests[]))]
         public void EnumerableTypesTest(Type type)
         {
             TypeHelper.IsEnumerable(type).ShouldBeTrue();
@@ -37,15 +37,29 @@ namespace DataTableMapper.Tests.Mapping
         [TestCase(typeof(string))]
         [TestCase(typeof(int))]
         [TestCase(typeof(byte[]))]
+        [TestCase(typeof(char[]))]
+        [TestCase(typeof(int[]))]
         public void NonEnumerableTypesTest(Type type)
         {
             TypeHelper.IsEnumerable(type).ShouldBeFalse();
         }
 
         [Test]
-        public void ByteArrayIsSimpleType()
+        [TestCase(typeof(byte[]))]
+        [TestCase(typeof(char[]))]
+        [TestCase(typeof(int[]))]
+        [TestCase(typeof(Guid?))]
+        public void SimpleElementArraysAndSimpleNullablesAreSimpleTypes(Type type)
         {
-            TypeHelper.IsSimpleType(typeof(byte[])).ShouldBeTrue();
+            TypeHelper.IsSimpleType(type).ShouldBeTrue();
+        }
+
+        [Test]
+        [TestCase(typeof(TypeHelperTests[]))]
+        [TestCase(typeof(List<int>))]
+        public void ComplexElementArraysAndCollectionsAreNotSimpleTypes(Type type)
+        {
+            TypeHelper.IsSimpleType(type).ShouldBeFalse();
         }
 
         [Test]

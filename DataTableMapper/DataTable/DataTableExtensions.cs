@@ -42,17 +42,20 @@ namespace DataTableMapper
 
             try
             {
-                var x = new T();
+                // Boxed once here and written through by every mapping. A value-type T mutated
+                // through its own generic local would have each reflective SetValue land on a
+                // throwaway box, so the writes must share this single boxed instance.
+                object x = new T();
 
                 var properties = x.GetType().GetProperties().Where(p => p.CanWrite);
 
                 foreach (var property in properties)
                 {
                     var mapping = _factory.Create(property);
-                    mapping.PerformMapping<T>(x, property, row);
+                    mapping.PerformMapping(x, property, row);
                 }
 
-                return x;
+                return (T)x;
             }
             finally
             {

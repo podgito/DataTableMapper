@@ -1,6 +1,5 @@
 ﻿using DataTableMapper.Attributes;
 using System;
-using System.Linq;
 
 namespace DataTableMapper.Mapping
 {
@@ -10,11 +9,10 @@ namespace DataTableMapper.Mapping
         {
             if (TypeHelper.IsSimpleType(property.PropertyType))
             {
-                if (property.GetCustomAttributes(typeof(DefaultValueAttribute), true).Any())
+                var attributes = property.GetCustomAttributes(typeof(DefaultValueAttribute), true);
+                if (attributes.Length > 0)
                 {
-                    var defaultValueAttribute = (DefaultValueAttribute)property.GetCustomAttributes(typeof(DefaultValueAttribute), true).First();
-
-                    return defaultValueAttribute.Value;
+                    return ((DefaultValueAttribute)attributes[0]).Value;
                 }
 
                 return null; //return null if we get this far

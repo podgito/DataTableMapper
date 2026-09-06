@@ -55,6 +55,32 @@ namespace DataTableMapper.Tests.DataTableMapTo
         }
 
         [Test]
+        [TestCase("Female", Gender.Female)]
+        [TestCase("female", Gender.Female)]
+        [TestCase("FEMALE", Gender.Female)]
+        [TestCase("mAlE", Gender.Male)]
+        public void EnumFromStringIsCaseInsensitive(string columnValue, Gender expected)
+        {
+            var table = new DataTable();
+            table.Columns.Add("MyGender", typeof(string));
+            table.Rows.Add(columnValue);
+
+            var person = table.MapTo<Person>().Single();
+
+            Assert.AreEqual(expected, person.Gender);
+        }
+
+        [Test]
+        public void UnparseableEnumStringThrowsOnEnumeration()
+        {
+            var table = new DataTable();
+            table.Columns.Add("MyGender", typeof(string));
+            table.Rows.Add("Neither");
+
+            Assert.Throws<ArgumentException>(() => table.MapTo<Person>().ToList());
+        }
+
+        [Test]
         public void NullableEnumFromDBNullIsNull()
         {
             var table = new DataTable();

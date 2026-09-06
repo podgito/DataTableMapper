@@ -30,6 +30,23 @@ Call it:
 IEnumerable<MyClass> x = table.MapTo<MyClass>();
 ```
 
+`MapTo` is a lazy iterator — mapping happens as you enumerate, so a conversion error surfaces
+when you read the offending row, not when you call `MapTo`. `T` must have a public parameterless
+constructor. Read-only properties are skipped.
+
+### Mapping a single column
+
+There is also an overload that projects one column to a sequence of scalars:
+
+```csharp
+public static IEnumerable<T> MapTo<T>(this System.Data.DataTable table, string columnName)
+    where T : IComparable
+```
+
+```csharp
+IEnumerable<int> ids = table.MapTo<int>("Id");   // DBNull becomes default(T)
+```
+
 ## Mapping
 
 `MapTo` attempts to find a value for each property of the class in the following order:
@@ -54,7 +71,25 @@ public class MyClass
 }
 ```
 
-`ColumnMappingAttribute` can be inherited for custom functionality.
+`ColumnMappingAttribute` takes one or more aliases (`[ColumnMapping("Id", "user_id")]`); the first
+column that exists and is non-null wins. It can be inherited for custom functionality — this is
+how `BoolValueConversionAttribute` and any `IValueConversion` attribute also carry a column name.
+
+`PropertyMappingAttribute` is a legacy synonym for `ColumnMappingAttribute` with the same
+constructor. Prefer `ColumnMapping` in new code. (Its `virtual Convert` method is `[Obsolete]`
+and never called by the mapper — implement `IValueConversion` for conversions.)
+
+### Ignoring a property
+
+Decorate a property with `IgnoreMappingAttribute` to skip it entirely:
+
+```csharp
+public class MyClass
+{
+    [IgnoreMapping]
+    public string Computed { get; set; }
+}
+```
 
 ### Default values
 
@@ -92,10 +127,66 @@ class MyClass
 
 ## Extensibility
 
-For a custom conversion (e.g. decryption), create an attribute implementing the `IValueConversion`
-interface.
+For a custom conversion (e.g. decryption, splitting a delimited column, parsing JSON), write an
+attribute that implements `IValueConversion` **and** inherits `ColumnMappingAttribute`:
 
-> Also inherit `ColumnMappingAttribute` to get column mapping with the attribute.
+```csharp
+public interface IValueConversion
+{
+    object Convert(object o);   // o is the raw column value; return the property value, or null
+}
+```
+
+```csharp
+public sealed class CsvToListAttribute : ColumnMappingAttribute, IValueConversion
+{
+    public CsvToListAttribute(params string[] aliases) : base(aliases) { }
+
+    public object Convert(object o)
+    {
+        if (o == null || o == DBNull.Value) return null;               // let [DefaultValue] apply
+        return ((string)o).Split(',').Select(s => s.Trim()).ToList();
+    }
+}
+
+public class Order
+{
+    [CsvToList("Tags")]
+    public List<string> Tags { get; set; }
+}
+```
+
+Returning `null` from `Convert` leaves the door open for a `[DefaultValue]` (or the type default)
+to apply, exactly as with the built-in `BoolValueConversion`. A converter works on both
+simple-typed and complex-typed properties; on a complex-typed property it fully replaces the
+recursive column-to-sub-property mapping.
+
+## Supported property types
+
+A property is mapped directly from its column ("simple") when its type is one of:
+
+- any primitive (`bool`, `int`, `long`, `double`, `char`, …), `decimal`, `string`
+- `DateTime`, `Guid`, `TimeSpan`, `DateTimeOffset`
+- `byte[]`, `char[]`, or any array of the above
+- `Nullable<T>` of any of the above
+- any `enum` (and `Nullable<enum>`)
+
+String-to-number and string-to-date parsing uses **invariant culture** — the data is
+database-sourced, so it must not depend on the host locale. Enum strings parse
+case-insensitively.
+
+Any other class or struct type is treated as "complex": the mapper recurses and fills its
+writable properties from the **same row** (a flat/denormalised model, not nested tables).
+
+## Limitations
+
+- `IEnumerable` / `List<T>` / arrays of complex types are treated as child collections and left
+  unset — there is no row-grouping model.
+- Reference cycles in the object graph are broken by leaving the re-entered property unset.
+- Read-only properties, and properties without a public setter, are skipped.
+- Mapping uses reflection per row with no caching.
+- Cycle detection uses a `[ThreadStatic]` set, so a single `DataTable` must not be mapped
+  concurrently across threads on the same `MapTo` enumeration.
 
 ## Building
 
@@ -109,12 +200,17 @@ dotnet pack  DataTableMapper/DataTableMapper.csproj -c Release -o artifacts
 
 ## Releasing
 
-1. Bump `<VersionPrefix>` in `Directory.Build.props`.
-2. Commit, then tag: `git tag v1.2.0 && git push --follow-tags`.
+1. Bump `<VersionPrefix>` (and `AssemblyVersion`/`FileVersion`) in `Directory.Build.props`, the
+   `<PackageReleaseNotes>` in the csproj, and add a `CHANGELOG.md` entry.
+2. PR to `master`; once merged, tag: `git tag vX.Y.Z && git push --follow-tags`.
 3. The `Release` workflow verifies the tag matches the project version, packs, and pushes to
    NuGet.org via [Trusted Publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
    (OIDC, no stored API key). It needs a `nuget-release` GitHub environment and a matching
    Trusted Publishing policy on nuget.org (see `.github/workflows/release.yml`).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## Licence
 
